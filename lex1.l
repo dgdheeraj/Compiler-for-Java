@@ -37,7 +37,7 @@ comment_end  \*\/
 "}"  {n.s++; return T_CParen;}
 "String" {return T_STRING;}
 "args" {return T_ARGS;}
-"char" {return T_CHAR;}
+"char" { return T_CHAR;}
 
 
 Equality {return T_S_EQ;}
