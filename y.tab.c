@@ -79,7 +79,7 @@ struct double_list
 	union Value 
 	{
     	int val;
-    	char vale[20];
+    	char vale;
     	float valu;
   	}value;
 };
@@ -88,7 +88,7 @@ d_list* head=NULL;
 int yylex(void);
 void yyerror(char *);
 extern int yylineno;
-int fill(char*name,int value,int type);
+int fill(char*name,float value,int type);
 int  fill_float(char* name,float value,int type);
 int lookupsymb(char *id);
 void display();
@@ -1445,13 +1445,13 @@ yyreduce:
 
   case 31:
 #line 122 "java-yacc.y" /* yacc.c:1646  */
-    { fill_float((yyvsp[-1].string),0.0,1);}
+    { fill((yyvsp[-1].string),0.0,1);}
 #line 1450 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
 #line 123 "java-yacc.y" /* yacc.c:1646  */
-    {fill_float((yyvsp[-3].string),(yyvsp[-1].number),1);}
+    {fill((yyvsp[-3].string),(yyvsp[-1].number),1);}
 #line 1456 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1721,7 +1721,7 @@ int update(char*name,float value){
 
 }
 
-int  fill(char* name,int value,int type){
+int  fill(char* name,float value,int type){
   d_list*node=head;
   //printf("%d\n",yylineno);
   while(node!=NULL){
@@ -1740,7 +1740,10 @@ int  fill(char* name,int value,int type){
   newnode->type=type;
   newnode->scope=n.s;
   newnode->l=yylineno;
-  newnode->value.val=value;
+  if(type==0)//Integer
+  	newnode->value.val=(int)value;
+  if(type==1)//Float
+  	newnode->value.valu=value;
   newnode->next=head;
   head=newnode;
    

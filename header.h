@@ -4,3 +4,10 @@ typedef struct scope
 }scope;
 
 scope n;
+
+typedef struct values
+{
+	int vi;
+	float vf;
+	char vc;
+}values;

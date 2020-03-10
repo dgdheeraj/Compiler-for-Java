@@ -14,7 +14,7 @@ struct double_list
 	union Value 
 	{
     	int val;
-    	char vale[20];
+    	char vale;
     	float valu;
   	}value;
 };
@@ -23,7 +23,7 @@ d_list* head=NULL;
 int yylex(void);
 void yyerror(char *);
 extern int yylineno;
-int fill(char*name,int value,int type);
+int fill(char*name,float value,int type);
 int  fill_float(char* name,float value,int type);
 int lookupsymb(char *id);
 void display();
@@ -119,8 +119,8 @@ cond:
 var_decl:
 	T_INT T_ID ';' { fill($2,0,0);}
 	|T_INT T_ID T_ASSG T_expr ';' {fill($2,$4,0);}
-	|T_FLOAT T_ID ';' { fill_float($2,0.0,1);}
-	|T_FLOAT T_ID T_ASSG T_expr ';' {fill_float($2,$4,1);}
+	|T_FLOAT T_ID ';' { fill($2,0.0,1);}
+	|T_FLOAT T_ID T_ASSG T_expr ';' {fill($2,$4,1);}
 	|T_CHAR T_ID ';' { printf("char\n");}
 	|T_CHAR T_ID T_ASSG T_CHARV ';' {printf("char %c\n",$4[1]);}
        //| T_Const T_S_DIV T_Const  {$$=$1/$3;}
@@ -153,7 +153,7 @@ int update(char*name,float value){
 
 }
 
-int  fill(char* name,int value,int type){
+int  fill(char* name,float value,int type){
   d_list*node=head;
   //printf("%d\n",yylineno);
   while(node!=NULL){
@@ -172,7 +172,10 @@ int  fill(char* name,int value,int type){
   newnode->type=type;
   newnode->scope=n.s;
   newnode->l=yylineno;
-  newnode->value.val=value;
+  if(type==0)//Integer
+  	newnode->value.val=(int)value;
+  if(type==1)//Float
+  	newnode->value.valu=value;
   newnode->next=head;
   head=newnode;
    

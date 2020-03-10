@@ -932,7 +932,7 @@ YY_RULE_SETUP
 case 22:
 YY_RULE_SETUP
 #line 40 "lex1.l"
-{ return T_CHAR;}
+{return T_CHAR;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
