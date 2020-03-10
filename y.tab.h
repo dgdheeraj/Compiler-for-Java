@@ -62,27 +62,29 @@ extern int yydebug;
     T_CLASS = 272,
     T_IMPORT = 273,
     T_FLOAT = 274,
-    T_U_INCR = 275,
-    T_U_DECR = 276,
-    T_S_PLUSEQ = 277,
-    T_S_MINUSEQ = 278,
-    T_S_MULTEQ = 279,
-    T_S_DIVEQ = 280,
-    TRUE = 281,
-    FALSE = 282,
-    T_S_DIV = 283,
-    T_S_EQ = 284,
-    T_S_PLUS = 285,
-    T_S_MINUS = 286,
-    T_S_MULT = 287,
-    T_ = 288,
-    S_DIV = 289,
-    T_GEQ = 290,
-    T_LEQ = 291,
-    T_LE = 292,
-    T_GE = 293,
-    T_ASSG = 294,
-    T_NE = 295
+    T_CHAR = 275,
+    T_CHARV = 276,
+    T_U_INCR = 277,
+    T_U_DECR = 278,
+    T_S_PLUSEQ = 279,
+    T_S_MINUSEQ = 280,
+    T_S_MULTEQ = 281,
+    T_S_DIVEQ = 282,
+    TRUE = 283,
+    FALSE = 284,
+    T_S_DIV = 285,
+    T_S_EQ = 286,
+    T_S_PLUS = 287,
+    T_S_MINUS = 288,
+    T_S_MULT = 289,
+    T_ = 290,
+    S_DIV = 291,
+    T_GEQ = 292,
+    T_LEQ = 293,
+    T_LE = 294,
+    T_GE = 295,
+    T_ASSG = 296,
+    T_NE = 297
   };
 #endif
 /* Tokens.  */
@@ -103,27 +105,29 @@ extern int yydebug;
 #define T_CLASS 272
 #define T_IMPORT 273
 #define T_FLOAT 274
-#define T_U_INCR 275
-#define T_U_DECR 276
-#define T_S_PLUSEQ 277
-#define T_S_MINUSEQ 278
-#define T_S_MULTEQ 279
-#define T_S_DIVEQ 280
-#define TRUE 281
-#define FALSE 282
-#define T_S_DIV 283
-#define T_S_EQ 284
-#define T_S_PLUS 285
-#define T_S_MINUS 286
-#define T_S_MULT 287
-#define T_ 288
-#define S_DIV 289
-#define T_GEQ 290
-#define T_LEQ 291
-#define T_LE 292
-#define T_GE 293
-#define T_ASSG 294
-#define T_NE 295
+#define T_CHAR 275
+#define T_CHARV 276
+#define T_U_INCR 277
+#define T_U_DECR 278
+#define T_S_PLUSEQ 279
+#define T_S_MINUSEQ 280
+#define T_S_MULTEQ 281
+#define T_S_DIVEQ 282
+#define TRUE 283
+#define FALSE 284
+#define T_S_DIV 285
+#define T_S_EQ 286
+#define T_S_PLUS 287
+#define T_S_MINUS 288
+#define T_S_MULT 289
+#define T_ 290
+#define S_DIV 291
+#define T_GEQ 292
+#define T_LEQ 293
+#define T_LE 294
+#define T_GE 295
+#define T_ASSG 296
+#define T_NE 297
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -137,7 +141,7 @@ union YYSTYPE
     	char *string;
 //    	bool *boo;   	 
 
-#line 141 "y.tab.h" /* yacc.c:1909  */
+#line 145 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

@@ -19,5 +19,6 @@ public class ex
 		  int t=6;
 		  int a=6;
 		}
+		char ch='a';
 	}
 }

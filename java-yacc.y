@@ -47,7 +47,9 @@ int update(char* id,float value);
 %type<number> T_expr
 %token T_PUBLIC T_STATIC T_VOID T_STRING T_ARGS
 %token  T_WHILE T_MAIN  T_DO T_FOR
-%token T_INT  T_CLASS  T_IMPORT T_FLOAT
+%token T_INT  T_CLASS  T_IMPORT T_FLOAT T_CHAR 
+%token T_CHARV
+%type<string> T_CHARV
 %token T_U_INCR T_U_DECR
 %token	T_S_PLUSEQ T_S_MINUSEQ T_S_MULTEQ T_S_DIVEQ TRUE FALSE T_S_DIV
 %nonassoc  T_S_EQ
@@ -80,7 +82,6 @@ modifier modifier modifier  T_MAIN '(' T_STRING '[' ']' T_ARGS ')' T_OParen stmt
 stmts:
  stmts stmt
  | stmt
- 
  ;
  
 stmt:
@@ -96,8 +97,8 @@ T_expr:
    | T_Const T_S_MULT T_Const  {$$=$1*$3;}
    | T_Const T_S_DIV T_Const  {$$=$1/$3;}
     | T_Const {$$=$1;}
-
 ;
+
 T_Const:
 T_ID {$$=lookupsymb($1);}
 //| T_fConst { printf("%f\n",$1);$$=$1 ;}
@@ -120,8 +121,11 @@ var_decl:
 	|T_INT T_ID T_ASSG T_expr ';' {fill($2,$4,0);}
 	|T_FLOAT T_ID ';' { fill_float($2,0.0,1);}
 	|T_FLOAT T_ID T_ASSG T_expr ';' {fill_float($2,$4,1);}
+	|T_CHAR T_ID ';' { printf("char\n");}
+	|T_CHAR T_ID T_ASSG T_CHARV ';' {printf("char %c\n",$4[1]);}
        //| T_Const T_S_DIV T_Const  {$$=$1/$3;}
        ;
+
 
 
 
