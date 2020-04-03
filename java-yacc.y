@@ -23,7 +23,8 @@ d_list* head=NULL;
 int yylex(void);
 void yyerror(char *);
 extern int yylineno;
-int fill(char*name,float value,int type);
+int fill(char* name,float value,int type);
+int  fill_char(char* name,char value,int type);
 int  fill_float(char* name,float value,int type);
 int lookupsymb(char *id);
 void display();
@@ -121,8 +122,8 @@ var_decl:
 	|T_INT T_ID T_ASSG T_expr ';' {fill($2,$4,0);}
 	|T_FLOAT T_ID ';' { fill($2,0.0,1);}
 	|T_FLOAT T_ID T_ASSG T_expr ';' {fill($2,$4,1);}
-	|T_CHAR T_ID ';' { printf("char\n");}
-	|T_CHAR T_ID T_ASSG T_CHARV ';' {printf("char %c\n",$4[1]);}
+	|T_CHAR T_ID ';' { fill_char($2,'a',2);}
+	|T_CHAR T_ID T_ASSG T_CHARV ';' {fill_char($2,$4[1],2);}
        //| T_Const T_S_DIV T_Const  {$$=$1/$3;}
        ;
 
@@ -180,6 +181,42 @@ int  fill(char* name,float value,int type){
   head=newnode;
    
 }
+
+int  fill_char(char* name,char value,int type){
+  d_list*node=head;
+  //printf("%d\n",yylineno);
+  while(node!=NULL){
+    if(strcmp(name,node->name)==0){
+      printf("Variable already declared at line %d\n",yylineno);
+      yyerror("");
+      return  -1;
+      exit(1);
+      
+    }
+    node=node->next;
+  }
+  node=head;
+  d_list* newnode=(d_list*) malloc(sizeof(d_list));
+  strcpy(newnode->name,name);
+  newnode->type=type;
+  newnode->scope=n.s;
+  newnode->l=yylineno;
+  if(type==2)//Integer
+  {
+  	newnode->value.vale=value;
+  	//printf("%c\n",newnode->value.vale);
+  }
+  else{
+	printf("Error\n");
+	yyerror("");
+	return -1;
+	exit(1);
+  }
+  newnode->next=head;
+  head=newnode;
+   
+}
+
 int  fill_float(char* name,float value,int type){
   d_list*node=head;
   //printf("%f\n",value);
@@ -215,6 +252,8 @@ void display(){
     //printf("var-name\t%s\tvalue\t%d\tint\tline %d\n",node->name,node->value.val,node->l);
     if(node->type==1)
     printf("%d            %s           \t   %s \t  %0.2f \t %d\n",node->l,node->name,"float",node->value.valu,node->scope);
+    if(node->type==2)
+    printf("%d            %s           \t   %s \t  %c \t %d\n",node->l,node->name,"char",node->value.vale,node->scope);
     node=node->next;
   }
   

@@ -88,13 +88,14 @@ d_list* head=NULL;
 int yylex(void);
 void yyerror(char *);
 extern int yylineno;
-int fill(char*name,float value,int type);
+int fill(char* name,float value,int type);
+int  fill_char(char* name,char value,int type);
 int  fill_float(char* name,float value,int type);
 int lookupsymb(char *id);
 void display();
 int update(char* id,float value);
 
-#line 98 "y.tab.c" /* yacc.c:339  */
+#line 99 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -218,14 +219,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 34 "java-yacc.y" /* yacc.c:355  */
+#line 35 "java-yacc.y" /* yacc.c:355  */
 
     	float number;
         //float num;
     	char *string;
 //    	bool *boo;   	 
 
-#line 229 "y.tab.c" /* yacc.c:355  */
+#line 230 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -242,7 +243,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 246 "y.tab.c" /* yacc.c:358  */
+#line 247 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -543,10 +544,10 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    69,    69,    72,    75,    76,    77,    80,    83,    84,
-      88,    89,    90,    91,    95,    96,    97,    98,    99,   103,
-     105,   108,   109,   110,   111,   112,   113,   114,   115,   120,
-     121,   122,   123,   124,   125
+       0,    70,    70,    73,    76,    77,    78,    81,    84,    85,
+      89,    90,    91,    92,    96,    97,    98,    99,   100,   104,
+     106,   109,   110,   111,   112,   113,   114,   115,   116,   121,
+     122,   123,   124,   125,   126
 };
 #endif
 
@@ -1378,97 +1379,97 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 72 "java-yacc.y" /* yacc.c:1646  */
+#line 73 "java-yacc.y" /* yacc.c:1646  */
     {display();}
-#line 1384 "y.tab.c" /* yacc.c:1646  */
+#line 1385 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 88 "java-yacc.y" /* yacc.c:1646  */
+#line 89 "java-yacc.y" /* yacc.c:1646  */
     {lookupsymb((yyvsp[-3].string));update((yyvsp[-3].string),(yyvsp[-1].number));}
-#line 1390 "y.tab.c" /* yacc.c:1646  */
+#line 1391 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 95 "java-yacc.y" /* yacc.c:1646  */
+#line 96 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[-2].number)+(yyvsp[0].number);}
-#line 1396 "y.tab.c" /* yacc.c:1646  */
+#line 1397 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 96 "java-yacc.y" /* yacc.c:1646  */
+#line 97 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[-2].number)-(yyvsp[0].number);}
-#line 1402 "y.tab.c" /* yacc.c:1646  */
+#line 1403 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 97 "java-yacc.y" /* yacc.c:1646  */
+#line 98 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[-2].number)*(yyvsp[0].number);}
-#line 1408 "y.tab.c" /* yacc.c:1646  */
+#line 1409 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 98 "java-yacc.y" /* yacc.c:1646  */
+#line 99 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[-2].number)/(yyvsp[0].number);}
-#line 1414 "y.tab.c" /* yacc.c:1646  */
+#line 1415 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 99 "java-yacc.y" /* yacc.c:1646  */
+#line 100 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[0].number);}
-#line 1420 "y.tab.c" /* yacc.c:1646  */
+#line 1421 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 103 "java-yacc.y" /* yacc.c:1646  */
+#line 104 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=lookupsymb((yyvsp[0].string));}
-#line 1426 "y.tab.c" /* yacc.c:1646  */
+#line 1427 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 105 "java-yacc.y" /* yacc.c:1646  */
+#line 106 "java-yacc.y" /* yacc.c:1646  */
     { (yyval.number)=(yyvsp[0].number);}
-#line 1432 "y.tab.c" /* yacc.c:1646  */
+#line 1433 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 120 "java-yacc.y" /* yacc.c:1646  */
+#line 121 "java-yacc.y" /* yacc.c:1646  */
     { fill((yyvsp[-1].string),0,0);}
-#line 1438 "y.tab.c" /* yacc.c:1646  */
+#line 1439 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 121 "java-yacc.y" /* yacc.c:1646  */
+#line 122 "java-yacc.y" /* yacc.c:1646  */
     {fill((yyvsp[-3].string),(yyvsp[-1].number),0);}
-#line 1444 "y.tab.c" /* yacc.c:1646  */
+#line 1445 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 122 "java-yacc.y" /* yacc.c:1646  */
+#line 123 "java-yacc.y" /* yacc.c:1646  */
     { fill((yyvsp[-1].string),0.0,1);}
-#line 1450 "y.tab.c" /* yacc.c:1646  */
+#line 1451 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 123 "java-yacc.y" /* yacc.c:1646  */
+#line 124 "java-yacc.y" /* yacc.c:1646  */
     {fill((yyvsp[-3].string),(yyvsp[-1].number),1);}
-#line 1456 "y.tab.c" /* yacc.c:1646  */
+#line 1457 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 124 "java-yacc.y" /* yacc.c:1646  */
-    { printf("char\n");}
-#line 1462 "y.tab.c" /* yacc.c:1646  */
+#line 125 "java-yacc.y" /* yacc.c:1646  */
+    { fill_char((yyvsp[-1].string),'a',2);}
+#line 1463 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 125 "java-yacc.y" /* yacc.c:1646  */
-    {printf("char %c\n",(yyvsp[-1].string)[1]);}
-#line 1468 "y.tab.c" /* yacc.c:1646  */
+#line 126 "java-yacc.y" /* yacc.c:1646  */
+    {fill_char((yyvsp[-3].string),(yyvsp[-1].string)[1],2);}
+#line 1469 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1472 "y.tab.c" /* yacc.c:1646  */
+#line 1473 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1696,7 +1697,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 132 "java-yacc.y" /* yacc.c:1906  */
+#line 133 "java-yacc.y" /* yacc.c:1906  */
 
 int update(char*name,float value){
   d_list*node=head;
@@ -1748,6 +1749,42 @@ int  fill(char* name,float value,int type){
   head=newnode;
    
 }
+
+int  fill_char(char* name,char value,int type){
+  d_list*node=head;
+  //printf("%d\n",yylineno);
+  while(node!=NULL){
+    if(strcmp(name,node->name)==0){
+      printf("Variable already declared at line %d\n",yylineno);
+      yyerror("");
+      return  -1;
+      exit(1);
+      
+    }
+    node=node->next;
+  }
+  node=head;
+  d_list* newnode=(d_list*) malloc(sizeof(d_list));
+  strcpy(newnode->name,name);
+  newnode->type=type;
+  newnode->scope=n.s;
+  newnode->l=yylineno;
+  if(type==2)//Integer
+  {
+  	newnode->value.vale=value;
+  	//printf("%c\n",newnode->value.vale);
+  }
+  else{
+	printf("Error\n");
+	yyerror("");
+	return -1;
+	exit(1);
+  }
+  newnode->next=head;
+  head=newnode;
+   
+}
+
 int  fill_float(char* name,float value,int type){
   d_list*node=head;
   //printf("%f\n",value);
@@ -1783,6 +1820,8 @@ void display(){
     //printf("var-name\t%s\tvalue\t%d\tint\tline %d\n",node->name,node->value.val,node->l);
     if(node->type==1)
     printf("%d            %s           \t   %s \t  %0.2f \t %d\n",node->l,node->name,"float",node->value.valu,node->scope);
+    if(node->type==2)
+    printf("%d            %s           \t   %s \t  %c \t %d\n",node->l,node->name,"char",node->value.vale,node->scope);
     node=node->next;
   }
   
