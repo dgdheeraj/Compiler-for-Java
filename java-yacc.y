@@ -89,6 +89,7 @@ stmt:
   T_ID T_ASSG T_expr ';' {lookupsymb($1);update($1,$3);}  
   | var_decl
   |T_WHILE '(' cond ')' T_OParen stmts T_CParen
+  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' T_OParen stmts T_CParen
   | T_DO '{' stmts '}' T_WHILE'(' cond ')' ';'
 ;
 
