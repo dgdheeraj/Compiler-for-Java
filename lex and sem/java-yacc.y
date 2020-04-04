@@ -54,8 +54,11 @@ int update(char* id,float value);
 %token T_U_INCR T_U_DECR
 %token	T_S_PLUSEQ T_S_MINUSEQ T_S_MULTEQ T_S_DIVEQ TRUE FALSE T_S_DIV
 %nonassoc  T_S_EQ
-%left T_S_PLUS T_S_MINUS T_S_MULT T_ S_DIV
+//%left T_S_PLUS T_S_MINUS 
+//%left T_S_MULT T_ S_DIV
 %right T_GEQ T_LEQ T_LE T_GE T_ASSG T_NE
+%left '+' '-'
+%left '%' '*' '/'
 
 
 %%
@@ -93,13 +96,23 @@ stmt:
   | T_DO '{' stmts '}' T_WHILE'(' cond ')' ';'
 ;
 
+/*
 T_expr:
    T_Const T_S_PLUS T_Const {$$=$1+$3;}
    | T_Const T_S_MINUS T_Const {$$=$1-$3;}
    | T_Const T_S_MULT T_Const  {$$=$1*$3;}
    | T_Const T_S_DIV T_Const  {$$=$1/$3;}
     | T_Const {$$=$1;}
+;*/
+
+T_expr:
+   T_expr '+' T_expr {$$=$1+$3;}
+   | T_expr '-' T_expr {$$=$1-$3;}
+   | T_expr '*' T_expr  {$$=$1*$3;}
+   | T_expr '/' T_expr  {$$=$1/$3;}
+   | T_Const {$$=$1;}
 ;
+
 
 T_Const:
 T_ID {$$=lookupsymb($1);}

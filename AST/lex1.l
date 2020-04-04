@@ -41,10 +41,6 @@ comment_end  \*\/
 
 
 Equality {return T_S_EQ;}
-"+"  {return T_S_PLUS;}
-"-"   {return T_S_MINUS;}
-"*"	{return T_S_MULT;}
-"/"	{return T_S_DIV;}
 "--" {return T_U_INCR;}
 "++" {return T_U_DECR;}
 "+="	{return T_S_PLUSEQ;}
@@ -62,3 +58,10 @@ Equality {return T_S_EQ;}
 \'{alpha}\' {yylval.string=strdup(yytext); return T_CHARV;}
 .    {return yytext[0];}
 %%
+
+/*
+"+"  {return T_S_PLUS;}
+"-"   {return T_S_MINUS;}
+"*"	{return T_S_MULT;}
+"/"	{return T_S_DIV;}
+*/

@@ -351,8 +351,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 43
-#define YY_END_OF_BUFFER 44
+#define YY_NUM_RULES 39
+#define YY_END_OF_BUFFER 40
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -362,18 +362,18 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[111] =
     {   0,
-        0,    0,   44,   42,    2,    1,   42,   42,   26,   24,
-       25,   42,   27,    5,   38,   39,   37,   40,   40,   40,
-       40,   40,   40,   40,   40,   40,   40,   40,   40,   40,
-       18,   19,   34,    0,   32,   29,   30,   28,   31,    6,
-        0,    3,   33,    0,    5,   36,   35,   40,   40,   40,
-       40,   40,   40,   17,   40,   40,   40,   40,   40,   40,
-       40,   40,   40,   41,    0,    0,    3,   40,   40,   40,
-       40,   40,   40,   16,   40,   13,   40,   40,   40,   40,
-       40,    4,   40,   40,   21,   22,   40,   40,   40,   12,
-       40,   40,   11,   40,   40,   40,    8,   14,   40,   40,
+        0,    0,   40,   38,    2,    1,   38,   38,   38,   38,
+       38,   38,   38,    5,   34,   35,   33,   36,   36,   36,
+       36,   36,   36,   36,   36,   36,   36,   36,   36,   36,
+       18,   19,   30,    0,   28,   25,   26,   24,   27,    6,
+        0,    3,   29,    0,    5,   32,   31,   36,   36,   36,
+       36,   36,   36,   17,   36,   36,   36,   36,   36,   36,
+       36,   36,   36,   37,    0,    0,    3,   36,   36,   36,
+       36,   36,   36,   16,   36,   13,   36,   36,   36,   36,
+       36,    4,   36,   36,   21,   22,   36,   36,   36,   12,
+       36,   36,   11,   36,   36,   36,    8,   14,   36,   36,
 
-       40,   15,   40,   20,    7,    9,   10,   40,   23,    0
+       36,   15,   36,   20,    7,    9,   10,   36,   23,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -918,104 +918,84 @@ YY_RULE_SETUP
 case 24:
 YY_RULE_SETUP
 #line 44 "lex1.l"
-{return T_S_PLUS;}
+{return T_U_INCR;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 45 "lex1.l"
-{return T_S_MINUS;}
+{return T_U_DECR;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 46 "lex1.l"
-{return T_S_MULT;}
+{return T_S_PLUSEQ;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 47 "lex1.l"
-{return T_S_DIV;}
+{return T_S_MINUSEQ;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 48 "lex1.l"
-{return T_U_INCR;}
+{return T_S_MULTEQ;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 49 "lex1.l"
-{return T_U_DECR;}
+{return T_S_DIVEQ;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 50 "lex1.l"
-{return T_S_PLUSEQ;}
+{return T_NE;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 51 "lex1.l"
-{return T_S_MINUSEQ;}
+{return T_GEQ;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 52 "lex1.l"
-{return T_S_MULTEQ;}
+{return T_LEQ;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 53 "lex1.l"
-{return T_S_DIVEQ;}
+{return T_GE;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 54 "lex1.l"
-{return T_NE;}
+{return T_LE;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 55 "lex1.l"
-{return T_GEQ;}
+{return T_ASSG;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 56 "lex1.l"
-{return T_LEQ;}
+#line 57 "lex1.l"
+{yylval.string=strdup(yytext); return T_ID ;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 57 "lex1.l"
-{return T_GE;}
+#line 58 "lex1.l"
+{yylval.string=strdup(yytext); return T_CHARV;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 58 "lex1.l"
-{return T_LE;}
+#line 59 "lex1.l"
+{return yytext[0];}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 59 "lex1.l"
-{return T_ASSG;}
-	YY_BREAK
-case 40:
-YY_RULE_SETUP
-#line 61 "lex1.l"
-{yylval.string=strdup(yytext); return T_ID ;}
-	YY_BREAK
-case 41:
-YY_RULE_SETUP
-#line 62 "lex1.l"
-{yylval.string=strdup(yytext); return T_CHARV;}
-	YY_BREAK
-case 42:
-YY_RULE_SETUP
-#line 63 "lex1.l"
-{return yytext[0];}
-	YY_BREAK
-case 43:
-YY_RULE_SETUP
-#line 64 "lex1.l"
+#line 60 "lex1.l"
 ECHO;
 	YY_BREAK
-#line 1019 "lex.yy.c"
+#line 999 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2020,6 +2000,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 64 "lex1.l"
+#line 60 "lex1.l"
 
+
+/*
+"+"  {return T_S_PLUS;}
+"-"   {return T_S_MINUS;}
+"*"	{return T_S_MULT;}
+"/"	{return T_S_DIV;}
+*/
 

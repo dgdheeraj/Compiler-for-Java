@@ -74,17 +74,12 @@ extern int yydebug;
     FALSE = 284,
     T_S_DIV = 285,
     T_S_EQ = 286,
-    T_S_PLUS = 287,
-    T_S_MINUS = 288,
-    T_S_MULT = 289,
-    T_ = 290,
-    S_DIV = 291,
-    T_GEQ = 292,
-    T_LEQ = 293,
-    T_LE = 294,
-    T_GE = 295,
-    T_ASSG = 296,
-    T_NE = 297
+    T_GEQ = 287,
+    T_LEQ = 288,
+    T_LE = 289,
+    T_GE = 290,
+    T_ASSG = 291,
+    T_NE = 292
   };
 #endif
 /* Tokens.  */
@@ -117,31 +112,27 @@ extern int yydebug;
 #define FALSE 284
 #define T_S_DIV 285
 #define T_S_EQ 286
-#define T_S_PLUS 287
-#define T_S_MINUS 288
-#define T_S_MULT 289
-#define T_ 290
-#define S_DIV 291
-#define T_GEQ 292
-#define T_LEQ 293
-#define T_LE 294
-#define T_GE 295
-#define T_ASSG 296
-#define T_NE 297
+#define T_GEQ 287
+#define T_LEQ 288
+#define T_LE 289
+#define T_GE 290
+#define T_ASSG 291
+#define T_NE 292
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 35 "java-yacc.y" /* yacc.c:1909  */
+#line 63 "java-yacc.y" /* yacc.c:1909  */
 
     	float number;
         //float num;
     	char *string;
+	struct node *tree;
 //    	bool *boo;   	 
 
-#line 145 "y.tab.h" /* yacc.c:1909  */
+#line 136 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
