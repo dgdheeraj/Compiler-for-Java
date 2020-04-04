@@ -568,8 +568,8 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,   108,   108,   111,   114,   115,   116,   119,   122,   123,
-     127,   135,   136,   137,   141,   147,   169,   170,   171,   172,
-     173,   178,   179,   192,   193,   194,   195,   196,   212
+     127,   136,   137,   138,   142,   148,   170,   171,   172,   173,
+     174,   179,   180,   193,   194,   195,   196,   197,   213
 };
 #endif
 
@@ -1424,60 +1424,61 @@ yyreduce:
 					strcpy(f.val1,(yyvsp[-3].string)); 					
 					(yyval.tree)=new_node("EQUALS",leaf(2,f),(yyvsp[-1].tree));				
 				}
+				//Need to Update Symbol Table here
 			 }
-#line 1429 "y.tab.c" /* yacc.c:1646  */
+#line 1430 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 141 "java-yacc.y" /* yacc.c:1646  */
+#line 142 "java-yacc.y" /* yacc.c:1646  */
     { (yyval.tree)=new_node("if",(yyvsp[-4].tree),(yyvsp[-1].tree));}
-#line 1435 "y.tab.c" /* yacc.c:1646  */
+#line 1436 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 147 "java-yacc.y" /* yacc.c:1646  */
+#line 148 "java-yacc.y" /* yacc.c:1646  */
     { (yyval.tree)=new_node("while",(yyvsp[-4].tree),(yyvsp[-1].tree));}
-#line 1441 "y.tab.c" /* yacc.c:1646  */
+#line 1442 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 169 "java-yacc.y" /* yacc.c:1646  */
-    {(yyval.tree)=new_node("ADD",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1447 "y.tab.c" /* yacc.c:1646  */
+#line 170 "java-yacc.y" /* yacc.c:1646  */
+    {(yyval.tree)=new_node("ADD",(yyvsp[-2].tree),(yyvsp[0].tree)); (yyval.tree)->value=(yyvsp[-2].tree)->value+(yyvsp[0].tree)->value;}
+#line 1448 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 170 "java-yacc.y" /* yacc.c:1646  */
-    {(yyval.tree)=new_node("SUB",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1453 "y.tab.c" /* yacc.c:1646  */
+#line 171 "java-yacc.y" /* yacc.c:1646  */
+    {(yyval.tree)=new_node("SUB",(yyvsp[-2].tree),(yyvsp[0].tree)); (yyval.tree)->value=(yyvsp[-2].tree)->value-(yyvsp[0].tree)->value;}
+#line 1454 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 171 "java-yacc.y" /* yacc.c:1646  */
-    {(yyval.tree)=new_node("MUL",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1459 "y.tab.c" /* yacc.c:1646  */
+#line 172 "java-yacc.y" /* yacc.c:1646  */
+    {(yyval.tree)=new_node("MUL",(yyvsp[-2].tree),(yyvsp[0].tree)); (yyval.tree)->value=(yyvsp[-2].tree)->value*(yyvsp[0].tree)->value;}
+#line 1460 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 172 "java-yacc.y" /* yacc.c:1646  */
-    {(yyval.tree)=new_node("DIV",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1465 "y.tab.c" /* yacc.c:1646  */
+#line 173 "java-yacc.y" /* yacc.c:1646  */
+    {(yyval.tree)=new_node("DIV",(yyvsp[-2].tree),(yyvsp[0].tree)); (yyval.tree)->value=(yyvsp[-2].tree)->value/(yyvsp[0].tree)->value;}
+#line 1466 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 173 "java-yacc.y" /* yacc.c:1646  */
+#line 174 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=(yyvsp[0].tree);}
-#line 1471 "y.tab.c" /* yacc.c:1646  */
+#line 1472 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 178 "java-yacc.y" /* yacc.c:1646  */
+#line 179 "java-yacc.y" /* yacc.c:1646  */
     {union leafval f;f.val2=(yyvsp[0].number); (yyval.tree)=leaf(0,f);}
-#line 1477 "y.tab.c" /* yacc.c:1646  */
+#line 1478 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 179 "java-yacc.y" /* yacc.c:1646  */
+#line 180 "java-yacc.y" /* yacc.c:1646  */
     {
 		if(lookupsymb((yyvsp[0].string))!=NULL)
 		 {
@@ -1486,51 +1487,51 @@ yyreduce:
 			(yyval.tree)=leaf(2,f);
 		 }
 	}
-#line 1490 "y.tab.c" /* yacc.c:1646  */
+#line 1491 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 192 "java-yacc.y" /* yacc.c:1646  */
+#line 193 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node(">=",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1496 "y.tab.c" /* yacc.c:1646  */
+#line 1497 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 193 "java-yacc.y" /* yacc.c:1646  */
+#line 194 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("<=",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1502 "y.tab.c" /* yacc.c:1646  */
+#line 1503 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 194 "java-yacc.y" /* yacc.c:1646  */
+#line 195 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node(">",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1508 "y.tab.c" /* yacc.c:1646  */
+#line 1509 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 195 "java-yacc.y" /* yacc.c:1646  */
+#line 196 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("<",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1514 "y.tab.c" /* yacc.c:1646  */
+#line 1515 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 196 "java-yacc.y" /* yacc.c:1646  */
+#line 197 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("==",(yyvsp[-2].tree),(yyvsp[0].tree));}
-#line 1520 "y.tab.c" /* yacc.c:1646  */
+#line 1521 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 212 "java-yacc.y" /* yacc.c:1646  */
-    {  fill((yyvsp[-3].string),0,0);
+#line 213 "java-yacc.y" /* yacc.c:1646  */
+    {  fill((yyvsp[-3].string),(yyvsp[-1].tree)->value,0);
 					union leafval f;
 					strcpy(f.val1,(yyvsp[-3].string)); 					
 					(yyval.tree)=new_node("EQUALS",leaf(2,f),(yyvsp[-1].tree));				
 				       }
-#line 1530 "y.tab.c" /* yacc.c:1646  */
+#line 1531 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1534 "y.tab.c" /* yacc.c:1646  */
+#line 1535 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1758,7 +1759,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 226 "java-yacc.y" /* yacc.c:1906  */
+#line 227 "java-yacc.y" /* yacc.c:1906  */
 
 
 //------SYMBOL TABLE FUNCTIONS---------------------------------
@@ -1938,8 +1939,9 @@ void preorder(node* root)
         printf("%f ",root->value);
     if(root->type==1)
         printf("%s ",root->token);
+    //Need to check if variable exists
     if(root->type==2)
-        printf("%s ","variable");
+        printf("%s ",root->ptr->name);
     preorder(root->right);
 }
 

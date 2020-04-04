@@ -131,6 +131,7 @@ stmt:
 					strcpy(f.val1,$1); 					
 					$$=new_node("EQUALS",leaf(2,f),$3);				
 				}
+				//Need to Update Symbol Table here
 			 }  
   | var_decl
   | cond_stmts
@@ -166,10 +167,10 @@ T_expr:
 ;
 */
 T_expr:
-   T_expr '+' T_expr {$$=new_node("ADD",$1,$3);}
-   | T_expr '-' T_expr {$$=new_node("SUB",$1,$3);}
-   | T_expr '*' T_expr  {$$=new_node("MUL",$1,$3);}
-   | T_expr '/' T_expr  {$$=new_node("DIV",$1,$3);}
+   T_expr '+' T_expr {$$=new_node("ADD",$1,$3); $$->value=$1->value+$3->value;}
+   | T_expr '-' T_expr {$$=new_node("SUB",$1,$3); $$->value=$1->value-$3->value;}
+   | T_expr '*' T_expr  {$$=new_node("MUL",$1,$3); $$->value=$1->value*$3->value;}
+   | T_expr '/' T_expr  {$$=new_node("DIV",$1,$3); $$->value=$1->value/$3->value;}
    | T_Const {$$=$1;}
 ;
 
@@ -189,11 +190,11 @@ T_NUM {union leafval f;f.val2=$1; $$=leaf(0,f);}
 cond:
 //TRUE 
 //|FALSE
-T_expr T_GEQ T_expr  {$$=new_node(">=",$1,$3);}
-|T_expr T_LEQ T_expr {$$=new_node("<=",$1,$3);}
-|T_expr T_GE T_expr  {$$=new_node(">",$1,$3);}
-|T_expr T_LE T_expr  {$$=new_node("<",$1,$3);}
-|T_expr T_S_EQ T_expr {$$=new_node("==",$1,$3);} 
+T_expr T_GEQ T_expr  {$$=new_node(">=",$1,$3); if($1>=$3) $$=1; else $$=0;}
+|T_expr T_LEQ T_expr {$$=new_node("<=",$1,$3); if($1<=$3) $$=1; else $$=0;}
+|T_expr T_GE T_expr  {$$=new_node(">",$1,$3);  if($1>$3) $$=1; else $$=0;}
+|T_expr T_LE T_expr  {$$=new_node("<",$1,$3);  if($1<$3) $$=1; else $$=0;}
+|T_expr T_S_EQ T_expr {$$=new_node("==",$1,$3);if($1==$3) $$=1; else $$=0;} 
 ;
 
 /* 
@@ -209,7 +210,7 @@ var_decl:
 */
 var_decl:
 	//T_INT T_ID ';' { fill($2,0,0);}
-	T_INT T_ID T_ASSG T_expr ';' {  fill($2,0,0);
+	T_INT T_ID T_ASSG T_expr ';' {  fill($2,$4->value,0);
 					union leafval f;
 					strcpy(f.val1,$2); 					
 					$$=new_node("EQUALS",leaf(2,f),$4);				
@@ -402,8 +403,9 @@ void preorder(node* root)
         printf("%f ",root->value);
     if(root->type==1)
         printf("%s ",root->token);
+    //Need to check if variable exists
     if(root->type==2)
-        printf("%s ","variable");
+        printf("%s ",root->ptr->name);
     preorder(root->right);
 }
 

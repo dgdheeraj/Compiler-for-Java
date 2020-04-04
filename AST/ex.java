@@ -13,6 +13,7 @@ public class ex
 		{
 			int a=5+3*3/2;	
 		}
+		int d=5;
 	}
 }
 /*
