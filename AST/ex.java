@@ -8,17 +8,11 @@ public class ex
 		//int x;
 		//float r;
 		//a=6;
-		int e=1;		
-		int a=5+3*3/2;
-		d=3.6;
-		//a=7;	
-       		s=0;
-		for(int i=0;i<10;i=i+10)
+      		int e=1;	
+		while( e < 1)
 		{
-		  int t=6;
-		  //int a=6;
+			int a=5+3*3/2;	
 		}
-		char ch='a';
 	}
 }
 /*

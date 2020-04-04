@@ -58,28 +58,30 @@ extern int yydebug;
     T_MAIN = 268,
     T_DO = 269,
     T_FOR = 270,
-    T_INT = 271,
-    T_CLASS = 272,
-    T_IMPORT = 273,
-    T_FLOAT = 274,
-    T_CHAR = 275,
-    T_CHARV = 276,
-    T_U_INCR = 277,
-    T_U_DECR = 278,
-    T_S_PLUSEQ = 279,
-    T_S_MINUSEQ = 280,
-    T_S_MULTEQ = 281,
-    T_S_DIVEQ = 282,
-    TRUE = 283,
-    FALSE = 284,
-    T_S_DIV = 285,
-    T_S_EQ = 286,
-    T_GEQ = 287,
-    T_LEQ = 288,
-    T_LE = 289,
-    T_GE = 290,
-    T_ASSG = 291,
-    T_NE = 292
+    T_IF = 271,
+    T_ELSE = 272,
+    T_INT = 273,
+    T_CLASS = 274,
+    T_IMPORT = 275,
+    T_FLOAT = 276,
+    T_CHAR = 277,
+    T_CHARV = 278,
+    T_U_INCR = 279,
+    T_U_DECR = 280,
+    T_S_PLUSEQ = 281,
+    T_S_MINUSEQ = 282,
+    T_S_MULTEQ = 283,
+    T_S_DIVEQ = 284,
+    TRUE = 285,
+    FALSE = 286,
+    T_S_DIV = 287,
+    T_S_EQ = 288,
+    T_GEQ = 289,
+    T_LEQ = 290,
+    T_LE = 291,
+    T_GE = 292,
+    T_ASSG = 293,
+    T_NE = 294
   };
 #endif
 /* Tokens.  */
@@ -96,28 +98,30 @@ extern int yydebug;
 #define T_MAIN 268
 #define T_DO 269
 #define T_FOR 270
-#define T_INT 271
-#define T_CLASS 272
-#define T_IMPORT 273
-#define T_FLOAT 274
-#define T_CHAR 275
-#define T_CHARV 276
-#define T_U_INCR 277
-#define T_U_DECR 278
-#define T_S_PLUSEQ 279
-#define T_S_MINUSEQ 280
-#define T_S_MULTEQ 281
-#define T_S_DIVEQ 282
-#define TRUE 283
-#define FALSE 284
-#define T_S_DIV 285
-#define T_S_EQ 286
-#define T_GEQ 287
-#define T_LEQ 288
-#define T_LE 289
-#define T_GE 290
-#define T_ASSG 291
-#define T_NE 292
+#define T_IF 271
+#define T_ELSE 272
+#define T_INT 273
+#define T_CLASS 274
+#define T_IMPORT 275
+#define T_FLOAT 276
+#define T_CHAR 277
+#define T_CHARV 278
+#define T_U_INCR 279
+#define T_U_DECR 280
+#define T_S_PLUSEQ 281
+#define T_S_MINUSEQ 282
+#define T_S_MULTEQ 283
+#define T_S_DIVEQ 284
+#define TRUE 285
+#define FALSE 286
+#define T_S_DIV 287
+#define T_S_EQ 288
+#define T_GEQ 289
+#define T_LEQ 290
+#define T_LE 291
+#define T_GE 292
+#define T_ASSG 293
+#define T_NE 294
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -132,7 +136,7 @@ union YYSTYPE
 	struct node *tree;
 //    	bool *boo;   	 
 
-#line 136 "y.tab.h" /* yacc.c:1909  */
+#line 140 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

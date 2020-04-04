@@ -71,12 +71,18 @@ void preorder(node* root);
 %token <number> T_NUM  
 %token <string> T_ID
 %type<tree> T_Const
+%type<tree> cond
+%type<tree> cond_stmts
+%type<tree> stmt
+%type<tree> stmts
+%type<tree> var_decl
+%type<tree> iter_stmts
 %token <number> T_OParen
 %token T_CParen
 //%token <num> T_fConst
 %type<tree> T_expr
 %token T_PUBLIC T_STATIC T_VOID T_STRING T_ARGS
-%token  T_WHILE T_MAIN  T_DO T_FOR
+%token  T_WHILE T_MAIN  T_DO T_FOR T_IF T_ELSE
 %token T_INT  T_CLASS  T_IMPORT T_FLOAT T_CHAR 
 %token T_CHARV
 %type<string> T_CHARV
@@ -110,19 +116,36 @@ T_PUBLIC
 |T_VOID
 ;
 main_stmt:
-modifier modifier modifier  T_MAIN '(' T_STRING '[' ']' T_ARGS ')' T_OParen stmts T_CParen 
+modifier modifier modifier  T_MAIN '(' T_STRING '[' ']' T_ARGS ')' T_OParen stmts T_CParen {preorder($12);}
 ;
 stmts:
- stmts stmt
- | stmt
+ stmts stmt {$$=new_node("MStmts",$1,$2);}
+ | stmt {$$=$1;}
  ;
  
 stmt:
-  T_ID T_ASSG T_expr ';' {lookupsymb($1);update($1,$3->value);}  
+  T_ID T_ASSG T_expr ';' { 
+				if(lookupsymb($1)!=NULL)
+				{
+					union leafval f;
+					strcpy(f.val1,$1); 					
+					$$=new_node("EQUALS",leaf(2,f),$3);				
+				}
+			 }  
   | var_decl
-  |T_WHILE '(' cond ')' T_OParen stmts T_CParen
-  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' T_OParen stmts T_CParen
-  | T_DO '{' stmts '}' T_WHILE'(' cond ')' ';'
+  | cond_stmts
+  | iter_stmts
+  ;
+
+cond_stmts:
+  T_IF '(' cond ')' T_OParen stmts T_CParen { $$=new_node("if",$3,$6);}  
+//  | T_IF '(' cond ')' T_OParen stmts T_CParen T_ELSE T_OParen stmts T_CParen
+;
+
+
+iter_stmts:
+  T_WHILE '(' cond ')' T_OParen stmts T_CParen { $$=new_node("while",$3,$6);}
+  //|T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' T_OParen stmts T_CParen
 ;
 
 /*
@@ -164,13 +187,13 @@ T_NUM {union leafval f;f.val2=$1; $$=leaf(0,f);}
 ;
 
 cond:
-|TRUE 
-|FALSE
-|T_expr T_GEQ T_expr 
-|T_expr T_LEQ T_expr
-|T_expr T_GE T_expr
-|T_expr T_LE T_expr
-|T_expr T_S_EQ T_expr 
+//TRUE 
+//|FALSE
+T_expr T_GEQ T_expr  {$$=new_node(">=",$1,$3);}
+|T_expr T_LEQ T_expr {$$=new_node("<=",$1,$3);}
+|T_expr T_GE T_expr  {$$=new_node(">",$1,$3);}
+|T_expr T_LE T_expr  {$$=new_node("<",$1,$3);}
+|T_expr T_S_EQ T_expr {$$=new_node("==",$1,$3);} 
 ;
 
 /* 
@@ -185,12 +208,16 @@ var_decl:
        ;
 */
 var_decl:
-	T_INT T_ID ';' { fill($2,0,0);}
-	|T_INT T_ID T_ASSG T_expr ';' {preorder($4);}
-	|T_FLOAT T_ID ';' { fill($2,0.0,1);}
+	//T_INT T_ID ';' { fill($2,0,0);}
+	T_INT T_ID T_ASSG T_expr ';' {  fill($2,0,0);
+					union leafval f;
+					strcpy(f.val1,$2); 					
+					$$=new_node("EQUALS",leaf(2,f),$4);				
+				       }
+	//|T_FLOAT T_ID ';' { fill($2,0.0,1);}
 	//|T_FLOAT T_ID T_ASSG T_expr ';' {fill($2,$4,1);}
-	|T_CHAR T_ID ';' { fill_char($2,'a',2);}
-	|T_CHAR T_ID T_ASSG T_CHARV ';' {fill_char($2,$4[1],2);}
+	//|T_CHAR T_ID ';' { fill_char($2,'a',2);}
+	//|T_CHAR T_ID T_ASSG T_CHARV ';' {fill_char($2,$4[1],2);}
         //| T_Const T_S_DIV T_Const  {$$=$1/$3;}
        ;
 
@@ -352,6 +379,7 @@ node* leaf(int type,union leafval f)
        	tmp->ptr=lookupsymb(f.val1);
     	tmp->type=2;//leaf variable
     }
+
     return tmp;
 }
 node* new_node(char* token,node* left,node* right)
@@ -375,7 +403,7 @@ void preorder(node* root)
     if(root->type==1)
         printf("%s ",root->token);
     if(root->type==2)
-        printf("%s ",root->ptr->name);
+        printf("%s ","variable");
     preorder(root->right);
 }
 

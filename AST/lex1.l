@@ -30,6 +30,8 @@ comment_end  \*\/
 "main" {return T_MAIN;}
 "int" {return T_INT;}
 "float" {return T_FLOAT;}
+"if" {return T_IF;}
+"else" {return T_ELSE;}
 "while" {return T_WHILE;}
 "for" {return T_FOR;}
 "do" {return  T_DO;}
