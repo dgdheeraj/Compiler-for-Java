@@ -9,7 +9,7 @@ struct double_list
 {
 	struct double_list * next;
   	char name[30];
-  	int type;
+  	int type; // 0-int 1-float 2-char 
   	int l;//line number
   	int scope;  	
 	union Value 
@@ -33,6 +33,7 @@ int update(char* id,float value);
 int yylex(void);
 void yyerror(char *);
 extern int yylineno;
+int tempno=0;// Global Variable for 
 
 //------------AST STRUCT AND DEF------------------
 typedef struct node

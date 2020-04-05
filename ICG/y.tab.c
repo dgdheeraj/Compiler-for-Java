@@ -74,7 +74,7 @@ struct double_list
 {
 	struct double_list * next;
   	char name[30];
-  	int type;
+  	int type; // 0-int 1-float 2-char 
   	int l;//line number
   	int scope;  	
 	union Value 
@@ -98,6 +98,7 @@ int update(char* id,float value);
 int yylex(void);
 void yyerror(char *);
 extern int yylineno;
+int tempno=0;// Global Variable for 
 
 //------------AST STRUCT AND DEF------------------
 typedef struct node
@@ -123,7 +124,7 @@ void preorder(node* root);
 
 
 
-#line 127 "y.tab.c" /* yacc.c:339  */
+#line 128 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -241,7 +242,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 63 "java-yacc.y" /* yacc.c:355  */
+#line 64 "java-yacc.y" /* yacc.c:355  */
 
     	float number;
         //float num;
@@ -249,7 +250,7 @@ union YYSTYPE
 	struct node *tree;
 //    	bool *boo;   	 
 
-#line 253 "y.tab.c" /* yacc.c:355  */
+#line 254 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -266,7 +267,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 270 "y.tab.c" /* yacc.c:358  */
+#line 271 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -567,9 +568,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   108,   108,   111,   114,   115,   116,   119,   122,   123,
-     127,   136,   137,   138,   142,   148,   170,   171,   172,   173,
-     174,   179,   180,   193,   194,   195,   196,   197,   213
+       0,   109,   109,   112,   115,   116,   117,   120,   123,   124,
+     128,   137,   138,   139,   143,   149,   171,   172,   173,   174,
+     175,   180,   181,   194,   195,   196,   197,   198,   214
 };
 #endif
 
@@ -1392,31 +1393,31 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 111 "java-yacc.y" /* yacc.c:1646  */
+#line 112 "java-yacc.y" /* yacc.c:1646  */
     {display();}
-#line 1398 "y.tab.c" /* yacc.c:1646  */
+#line 1399 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 119 "java-yacc.y" /* yacc.c:1646  */
+#line 120 "java-yacc.y" /* yacc.c:1646  */
     {preorder((yyvsp[-1].tree));}
-#line 1404 "y.tab.c" /* yacc.c:1646  */
+#line 1405 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 122 "java-yacc.y" /* yacc.c:1646  */
+#line 123 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("MStmts",(yyvsp[-1].tree),(yyvsp[0].tree));}
-#line 1410 "y.tab.c" /* yacc.c:1646  */
+#line 1411 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 123 "java-yacc.y" /* yacc.c:1646  */
+#line 124 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=(yyvsp[0].tree);}
-#line 1416 "y.tab.c" /* yacc.c:1646  */
+#line 1417 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 127 "java-yacc.y" /* yacc.c:1646  */
+#line 128 "java-yacc.y" /* yacc.c:1646  */
     { 
 				if(lookupsymb((yyvsp[-3].string))!=NULL)
 				{
@@ -1426,59 +1427,59 @@ yyreduce:
 				}
 				//Need to Update Symbol Table here
 			 }
-#line 1430 "y.tab.c" /* yacc.c:1646  */
+#line 1431 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 142 "java-yacc.y" /* yacc.c:1646  */
+#line 143 "java-yacc.y" /* yacc.c:1646  */
     { (yyval.tree)=new_node("if",(yyvsp[-4].tree),(yyvsp[-1].tree));}
-#line 1436 "y.tab.c" /* yacc.c:1646  */
+#line 1437 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 148 "java-yacc.y" /* yacc.c:1646  */
+#line 149 "java-yacc.y" /* yacc.c:1646  */
     { (yyval.tree)=new_node("while",(yyvsp[-4].tree),(yyvsp[-1].tree));}
-#line 1442 "y.tab.c" /* yacc.c:1646  */
+#line 1443 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 170 "java-yacc.y" /* yacc.c:1646  */
+#line 171 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("ADD",(yyvsp[-2].tree),(yyvsp[0].tree)); (yyval.tree)->value=(yyvsp[-2].tree)->value+(yyvsp[0].tree)->value;}
-#line 1448 "y.tab.c" /* yacc.c:1646  */
+#line 1449 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 171 "java-yacc.y" /* yacc.c:1646  */
+#line 172 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("SUB",(yyvsp[-2].tree),(yyvsp[0].tree)); (yyval.tree)->value=(yyvsp[-2].tree)->value-(yyvsp[0].tree)->value;}
-#line 1454 "y.tab.c" /* yacc.c:1646  */
+#line 1455 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 172 "java-yacc.y" /* yacc.c:1646  */
+#line 173 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("MUL",(yyvsp[-2].tree),(yyvsp[0].tree)); (yyval.tree)->value=(yyvsp[-2].tree)->value*(yyvsp[0].tree)->value;}
-#line 1460 "y.tab.c" /* yacc.c:1646  */
+#line 1461 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 173 "java-yacc.y" /* yacc.c:1646  */
+#line 174 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("DIV",(yyvsp[-2].tree),(yyvsp[0].tree)); (yyval.tree)->value=(yyvsp[-2].tree)->value/(yyvsp[0].tree)->value;}
-#line 1466 "y.tab.c" /* yacc.c:1646  */
+#line 1467 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 174 "java-yacc.y" /* yacc.c:1646  */
+#line 175 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=(yyvsp[0].tree);}
-#line 1472 "y.tab.c" /* yacc.c:1646  */
+#line 1473 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 179 "java-yacc.y" /* yacc.c:1646  */
+#line 180 "java-yacc.y" /* yacc.c:1646  */
     {union leafval f;f.val2=(yyvsp[0].number); (yyval.tree)=leaf(0,f);}
-#line 1478 "y.tab.c" /* yacc.c:1646  */
+#line 1479 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 180 "java-yacc.y" /* yacc.c:1646  */
+#line 181 "java-yacc.y" /* yacc.c:1646  */
     {
 		if(lookupsymb((yyvsp[0].string))!=NULL)
 		 {
@@ -1487,51 +1488,51 @@ yyreduce:
 			(yyval.tree)=leaf(2,f);
 		 }
 	}
-#line 1491 "y.tab.c" /* yacc.c:1646  */
+#line 1492 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 193 "java-yacc.y" /* yacc.c:1646  */
+#line 194 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node(">=",(yyvsp[-2].tree),(yyvsp[0].tree)); if((yyvsp[-2].tree)>=(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1497 "y.tab.c" /* yacc.c:1646  */
+#line 1498 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 194 "java-yacc.y" /* yacc.c:1646  */
+#line 195 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("<=",(yyvsp[-2].tree),(yyvsp[0].tree)); if((yyvsp[-2].tree)<=(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1503 "y.tab.c" /* yacc.c:1646  */
+#line 1504 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 195 "java-yacc.y" /* yacc.c:1646  */
+#line 196 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node(">",(yyvsp[-2].tree),(yyvsp[0].tree));  if((yyvsp[-2].tree)>(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1509 "y.tab.c" /* yacc.c:1646  */
+#line 1510 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 196 "java-yacc.y" /* yacc.c:1646  */
+#line 197 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("<",(yyvsp[-2].tree),(yyvsp[0].tree));  if((yyvsp[-2].tree)<(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1515 "y.tab.c" /* yacc.c:1646  */
+#line 1516 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 197 "java-yacc.y" /* yacc.c:1646  */
+#line 198 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("==",(yyvsp[-2].tree),(yyvsp[0].tree));if((yyvsp[-2].tree)==(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1521 "y.tab.c" /* yacc.c:1646  */
+#line 1522 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 213 "java-yacc.y" /* yacc.c:1646  */
+#line 214 "java-yacc.y" /* yacc.c:1646  */
     {  fill((yyvsp[-3].string),(yyvsp[-1].tree)->value,0);
 					union leafval f;
 					strcpy(f.val1,(yyvsp[-3].string)); 					
 					(yyval.tree)=new_node("EQUALS",leaf(2,f),(yyvsp[-1].tree));				
 				       }
-#line 1531 "y.tab.c" /* yacc.c:1646  */
+#line 1532 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1535 "y.tab.c" /* yacc.c:1646  */
+#line 1536 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1759,7 +1760,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 227 "java-yacc.y" /* yacc.c:1906  */
+#line 228 "java-yacc.y" /* yacc.c:1906  */
 
 
 //------SYMBOL TABLE FUNCTIONS---------------------------------
