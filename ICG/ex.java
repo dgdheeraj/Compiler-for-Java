@@ -9,11 +9,12 @@ public class ex
 		//float r;
 		//a=6;
       		int e=1;	
-		while( e < 1)
-		{
-      			int a=5+3*e/2;	
-		}
-		int d=5;
+		//while( e < 1)
+		//{
+      			//int a = 12*4/2+1;
+			int a = 12*4/2+1;	
+		//}
+		//int d=5;
 	}
 }
 /*

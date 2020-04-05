@@ -40,8 +40,9 @@ typedef struct node
 {
     struct node* left;
     struct node* right;
-    int type;// 0 means leaf value 2 means leaf variable 1 means interior node
+    int type;// 0-leaf value 2-leaf variable 3-temp_variable 1-interior node
     char* token;
+    char* tmp; //Name of tmp var
     float value;
     d_list* ptr;
 }node; 
@@ -117,7 +118,7 @@ T_PUBLIC
 |T_VOID
 ;
 main_stmt:
-modifier modifier modifier  T_MAIN '(' T_STRING '[' ']' T_ARGS ')' T_OParen stmts T_CParen {preorder($12);}
+modifier modifier modifier  T_MAIN '(' T_STRING '[' ']' T_ARGS ')' T_OParen stmts T_CParen {/*preorder($12);*/}
 ;
 stmts:
  stmts stmt {$$=new_node("MStmts",$1,$2);}
@@ -168,11 +169,63 @@ T_expr:
 ;
 */
 T_expr:
-   T_expr '+' T_expr {$$=new_node("ADD",$1,$3); $$->value=$1->value+$3->value;}
-   | T_expr '-' T_expr {$$=new_node("SUB",$1,$3); $$->value=$1->value-$3->value;}
-   | T_expr '*' T_expr  {$$=new_node("MUL",$1,$3); $$->value=$1->value*$3->value;}
-   | T_expr '/' T_expr  {$$=new_node("DIV",$1,$3); $$->value=$1->value/$3->value;}
-   | T_Const {$$=$1;}
+   T_expr '+' T_expr {
+			$$=new_node("ADD",$1,$3); 
+			$$->value=$1->value+$3->value;
+			sprintf($$->tmp, "t%d", tempno++);
+			if($1->type==0 && $1->type==0)
+				printf("%s=%d+%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d+%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s+%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s+%s\n",$$->tmp,$1->tmp,$3->tmp);
+		     
+		     }
+   | T_expr '-' T_expr {
+			$$=new_node("SUB",$1,$3); 
+			$$->value=$1->value-$3->value;
+			sprintf($$->tmp, "t%d", tempno++);
+			if($1->type==0 && $1->type==0)
+				printf("%s=%d-%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d-%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s-%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s-%s\n",$$->tmp,$1->tmp,$3->tmp);
+		     
+		     }
+   | T_expr '*' T_expr{
+			$$=new_node("MUL",$1,$3); 
+			$$->value=$1->value*$3->value;
+			sprintf($$->tmp, "t%d", tempno++);
+			if($1->type==0 && $1->type==0)
+				printf("%s=%d*%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d*%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s*%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s*%s\n",$$->tmp,$1->tmp,$3->tmp);
+		     
+		     }
+   | T_expr '/' T_expr  {
+			$$=new_node("DIV",$1,$3); 
+			$$->value=$1->value/$3->value;
+			sprintf($$->tmp, "t%d", tempno++);
+			if($1->type==0 && $1->type==0)
+				printf("%s=%d/%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d/%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s/%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s/%s\n",$$->tmp,$1->tmp,$3->tmp);
+		     
+		     }
+   | T_Const {$$=$1; $$->type=0; /*sprintf($$->tmp, "t%d", tempno++);if($$->type==1) printf("%s=%d\n",$$->tmp,(int)$1->value);*/}
 ;
 
 T_Const:
@@ -211,7 +264,11 @@ var_decl:
 */
 var_decl:
 	//T_INT T_ID ';' { fill($2,0,0);}
-	T_INT T_ID T_ASSG T_expr ';' {  fill($2,$4->value,0);
+	T_INT T_ID T_ASSG T_expr ';' {  if($4->type==0)
+						printf("%s=%d\n",$2,(int)$4->value);	
+					else if($4->type==1)					
+						printf("%s=%s\n",$2,$4->tmp);
+					fill($2,$4->value,0);
 					union leafval f;
 					strcpy(f.val1,$2); 					
 					$$=new_node("EQUALS",leaf(2,f),$4);				
@@ -365,6 +422,7 @@ node* initialize_node()
     tmp->left=tmp->right=NULL;
     tmp->type=-1;
     tmp->value=0;
+    tmp->tmp=(char*)malloc(sizeof(char)*30);
     tmp->token=(char*)malloc(sizeof(char)*30);
 }
 
