@@ -1926,6 +1926,7 @@ node* new_node(char* token,node* left,node* right)
     strcpy(t->token,token);
     t->left=left;
     t->right=right;
+    return t;
 }
 void preorder(node* root)
 {

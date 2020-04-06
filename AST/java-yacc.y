@@ -190,11 +190,11 @@ T_NUM {union leafval f;f.val2=$1; $$=leaf(0,f);}
 cond:
 //TRUE 
 //|FALSE
-T_expr T_GEQ T_expr  {$$=new_node(">=",$1,$3); if($1>=$3) $$->value=1; else $$->value=0;}
-|T_expr T_LEQ T_expr {$$=new_node("<=",$1,$3); if($1<=$3) $$->value=1; else $$->value=0;}
-|T_expr T_GE T_expr  {$$=new_node(">",$1,$3);  if($1>$3) $$->value=1; else $$->value=0;}
-|T_expr T_LE T_expr  {$$=new_node("<",$1,$3);  if($1<$3) $$->value=1; else $$->value=0;}
-|T_expr T_S_EQ T_expr {$$=new_node("==",$1,$3);if($1==$3) $$->value=1; else $$->value=0;} 
+T_expr T_GEQ T_expr  {$$=new_node(">=",$1,$3); if($1->value>=$3->value) $$->value=1; else $$->value=0;}
+|T_expr T_LEQ T_expr {$$=new_node("<=",$1,$3); if($1->value<=$3->value) $$->value=1; else $$->value=0;}
+|T_expr T_GE T_expr  {$$=new_node(">",$1,$3);  if($1->value>$3->value) $$->value=1; else $$->value=0;}
+|T_expr T_LE T_expr  {$$=new_node("<",$1,$3);  if($1->value<$3->value) $$->value=1; else $$->value=0;}
+|T_expr T_S_EQ T_expr {$$=new_node("==",$1,$3);if($1->value==$3->value) $$->value=1; else $$->value=0;} 
 ;
 
 /* 
@@ -390,6 +390,7 @@ node* new_node(char* token,node* left,node* right)
     strcpy(t->token,token);
     t->left=left;
     t->right=right;
+    return t;
 }
 void preorder(node* root)
 {

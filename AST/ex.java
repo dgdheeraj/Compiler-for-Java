@@ -8,12 +8,12 @@ public class ex
 		//int x;
 		//float r;
 		//a=6;
-      		int e=1;	
-		while( e < 1)
-		{
+      		//int e=1;	
+		//while( e < 1)
+		//{
 			int a=5+3*3/2;	
-		}
-		int d=5;
+		//}
+		//int d=5;
 	}
 }
 /*
