@@ -570,8 +570,8 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint16 yyrline[] =
 {
        0,   110,   110,   113,   116,   117,   118,   121,   124,   125,
-     129,   138,   139,   140,   144,   150,   172,   186,   200,   214,
-     228,   233,   234,   247,   248,   249,   250,   251,   267
+     129,   142,   143,   144,   148,   154,   176,   207,   237,   267,
+     297,   302,   303,   318,   319,   320,   321,   322,   338
 };
 #endif
 
@@ -1424,30 +1424,43 @@ yyreduce:
 				{
 					union leafval f;
 					strcpy(f.val1,(yyvsp[-3].string)); 					
-					(yyval.tree)=new_node("EQUALS",leaf(2,f),(yyvsp[-1].tree));				
+					(yyval.tree)=new_node("EQUALS",leaf(2,f),(yyvsp[-1].tree));
+					//Updating Symbol Table
+					d_list* t=lookupsymb((yyvsp[-3].string));	
+					t->value.val=(yyvsp[-1].tree)->value;			
 				}
 				//Need to Update Symbol Table here
+				
 			 }
-#line 1432 "y.tab.c" /* yacc.c:1646  */
+#line 1436 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 144 "java-yacc.y" /* yacc.c:1646  */
+#line 148 "java-yacc.y" /* yacc.c:1646  */
     { (yyval.tree)=new_node("if",(yyvsp[-4].tree),(yyvsp[-1].tree));}
-#line 1438 "y.tab.c" /* yacc.c:1646  */
+#line 1442 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 150 "java-yacc.y" /* yacc.c:1646  */
+#line 154 "java-yacc.y" /* yacc.c:1646  */
     { (yyval.tree)=new_node("while",(yyvsp[-4].tree),(yyvsp[-1].tree));}
-#line 1444 "y.tab.c" /* yacc.c:1646  */
+#line 1448 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 172 "java-yacc.y" /* yacc.c:1646  */
+#line 176 "java-yacc.y" /* yacc.c:1646  */
     {
 			(yyval.tree)=new_node("ADD",(yyvsp[-2].tree),(yyvsp[0].tree)); 
-			(yyval.tree)->value=(yyvsp[-2].tree)->value+(yyvsp[0].tree)->value;
+			/*if($1->type==2 || $1->type!=2)
+				$$->value=$1->ptr->value.val+$3->value;
+			else if($1->type!=2 || $1->type==2)
+				$$->value=$1->value+$3->ptr->value.val;
+			else if($1->type==2 || $1->type==2)
+				$$->value=$1->ptr->value.val+$3->ptr->value.val;
+			else*/
+				(yyval.tree)->value=(yyvsp[-2].tree)->value+(yyvsp[0].tree)->value;
+			//if($1->type==2)			
+			//printf("%d\n",$1->ptr->value.val);		
 			sprintf((yyval.tree)->tmp, "t%d", tempno++);
 			if((yyvsp[-2].tree)->type==0 && (yyvsp[-2].tree)->type==0)
 				printf("%s=%d+%d\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(int)(yyvsp[0].tree)->value);
@@ -1457,16 +1470,32 @@ yyreduce:
 				printf("%s=%s+%d\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(int)(yyvsp[0].tree)->value);
 		        else if((yyvsp[-2].tree)->type==1 && (yyvsp[0].tree)->type==1)
 				printf("%s=%s+%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(yyvsp[0].tree)->tmp);
-		     
+		        else if((yyvsp[-2].tree)->type==0 && (yyvsp[0].tree)->type==2)
+				printf("%s=%d+%s\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(yyvsp[0].tree)->ptr->name);
+			else if((yyvsp[-2].tree)->type==2 && (yyvsp[0].tree)->type==0)
+				printf("%s=%s+%d\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->ptr->name,(int)(yyvsp[0].tree)->value);
+			else if((yyvsp[-2].tree)->type==1 && (yyvsp[0].tree)->type==2)
+				printf("%s=%s+%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(yyvsp[0].tree)->ptr->name);
+			else if((yyvsp[-2].tree)->type==2 && (yyvsp[0].tree)->type==1)
+				printf("%s=%s+%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->ptr->name,(yyvsp[0].tree)->tmp);
+			
 		     }
-#line 1463 "y.tab.c" /* yacc.c:1646  */
+#line 1484 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 186 "java-yacc.y" /* yacc.c:1646  */
+#line 207 "java-yacc.y" /* yacc.c:1646  */
     {
 			(yyval.tree)=new_node("SUB",(yyvsp[-2].tree),(yyvsp[0].tree)); 
-			(yyval.tree)->value=(yyvsp[-2].tree)->value-(yyvsp[0].tree)->value;
+			/*if($1->type==2 || $1->type!=2)
+				$$->value=$1->ptr->value.val-$3->value;
+			if($1->type!=2 || $1->type==2)
+				$$->value=$1->value-$3->ptr->value.val;
+			if($1->type==2 || $1->type==2)
+				$$->value=$1->ptr->value.val-$3->ptr->value.val;
+			else*/
+				(yyval.tree)->value=(yyvsp[-2].tree)->value-(yyvsp[0].tree)->value;
+			
 			sprintf((yyval.tree)->tmp, "t%d", tempno++);
 			if((yyvsp[-2].tree)->type==0 && (yyvsp[-2].tree)->type==0)
 				printf("%s=%d-%d\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(int)(yyvsp[0].tree)->value);
@@ -1476,16 +1505,32 @@ yyreduce:
 				printf("%s=%s-%d\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(int)(yyvsp[0].tree)->value);
 		        else if((yyvsp[-2].tree)->type==1 && (yyvsp[0].tree)->type==1)
 				printf("%s=%s-%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(yyvsp[0].tree)->tmp);
-		     
+		        else if((yyvsp[-2].tree)->type==0 && (yyvsp[0].tree)->type==2)
+				printf("%s=%d-%s\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(yyvsp[0].tree)->ptr->name);
+			else if((yyvsp[-2].tree)->type==2 && (yyvsp[0].tree)->type==0)
+				printf("%s=%s-%d\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->ptr->name,(int)(yyvsp[0].tree)->value);
+			else if((yyvsp[-2].tree)->type==1 && (yyvsp[0].tree)->type==2)
+				printf("%s=%s-%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(yyvsp[0].tree)->ptr->name);
+			else if((yyvsp[-2].tree)->type==2 && (yyvsp[0].tree)->type==1)
+				printf("%s=%s-%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->ptr->name,(yyvsp[0].tree)->tmp);
+			
 		     }
-#line 1482 "y.tab.c" /* yacc.c:1646  */
+#line 1519 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 200 "java-yacc.y" /* yacc.c:1646  */
+#line 237 "java-yacc.y" /* yacc.c:1646  */
     {
 			(yyval.tree)=new_node("MUL",(yyvsp[-2].tree),(yyvsp[0].tree)); 
-			(yyval.tree)->value=(yyvsp[-2].tree)->value*(yyvsp[0].tree)->value;
+			/*if($1->type==2 || $1->type!=2)
+				$$->value=$1->ptr->value.val*$3->value;
+			if($1->type!=2 || $1->type==2)
+				$$->value=$1->value*$3->ptr->value.val;
+			if($1->type==2 || $1->type==2)
+				$$->value=$1->ptr->value.val*$3->ptr->value.val;
+			else*/
+				(yyval.tree)->value=(yyvsp[-2].tree)->value*(yyvsp[0].tree)->value;
+			
 			sprintf((yyval.tree)->tmp, "t%d", tempno++);
 			if((yyvsp[-2].tree)->type==0 && (yyvsp[-2].tree)->type==0)
 				printf("%s=%d*%d\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(int)(yyvsp[0].tree)->value);
@@ -1495,16 +1540,32 @@ yyreduce:
 				printf("%s=%s*%d\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(int)(yyvsp[0].tree)->value);
 		        else if((yyvsp[-2].tree)->type==1 && (yyvsp[0].tree)->type==1)
 				printf("%s=%s*%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(yyvsp[0].tree)->tmp);
-		     
+		        else if((yyvsp[-2].tree)->type==0 && (yyvsp[0].tree)->type==2)
+				printf("%s=%d*%s\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(yyvsp[0].tree)->ptr->name);
+			else if((yyvsp[-2].tree)->type==2 && (yyvsp[0].tree)->type==0)
+				printf("%s=%s*%d\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->ptr->name,(int)(yyvsp[0].tree)->value);
+			else if((yyvsp[-2].tree)->type==1 && (yyvsp[0].tree)->type==2)
+				printf("%s=%s*%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(yyvsp[0].tree)->ptr->name);
+			else if((yyvsp[-2].tree)->type==2 && (yyvsp[0].tree)->type==1)
+				printf("%s=%s*%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->ptr->name,(yyvsp[0].tree)->tmp);
+			
 		     }
-#line 1501 "y.tab.c" /* yacc.c:1646  */
+#line 1554 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 214 "java-yacc.y" /* yacc.c:1646  */
+#line 267 "java-yacc.y" /* yacc.c:1646  */
     {
 			(yyval.tree)=new_node("DIV",(yyvsp[-2].tree),(yyvsp[0].tree)); 
-			(yyval.tree)->value=(yyvsp[-2].tree)->value/(yyvsp[0].tree)->value;
+			/*if($1->type==2 || $1->type!=2)
+				$$->value=$1->ptr->value.val/$3->value;
+			if($1->type!=2 || $1->type==2)
+				$$->value=$1->value/$3->ptr->value.val;
+			if($1->type==2 || $1->type==2)
+				$$->value=$1->ptr->value.val/$3->ptr->value.val;
+			else*/
+				(yyval.tree)->value=(yyvsp[-2].tree)->value/(yyvsp[0].tree)->value;
+			
 			sprintf((yyval.tree)->tmp, "t%d", tempno++);
 			if((yyvsp[-2].tree)->type==0 && (yyvsp[-2].tree)->type==0)
 				printf("%s=%d/%d\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(int)(yyvsp[0].tree)->value);
@@ -1514,68 +1575,78 @@ yyreduce:
 				printf("%s=%s/%d\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(int)(yyvsp[0].tree)->value);
 		        else if((yyvsp[-2].tree)->type==1 && (yyvsp[0].tree)->type==1)
 				printf("%s=%s/%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(yyvsp[0].tree)->tmp);
-		     
+		        else if((yyvsp[-2].tree)->type==0 && (yyvsp[0].tree)->type==2)
+				printf("%s=%d/%s\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(yyvsp[0].tree)->ptr->name);
+			else if((yyvsp[-2].tree)->type==2 && (yyvsp[0].tree)->type==0)
+				printf("%s=%s/%d\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->ptr->name,(int)(yyvsp[0].tree)->value);
+			else if((yyvsp[-2].tree)->type==1 && (yyvsp[0].tree)->type==2)
+				printf("%s=%s/%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->tmp,(yyvsp[0].tree)->ptr->name);
+			else if((yyvsp[-2].tree)->type==2 && (yyvsp[0].tree)->type==1)
+				printf("%s=%s/%s\n",(yyval.tree)->tmp,(yyvsp[-2].tree)->ptr->name,(yyvsp[0].tree)->tmp);
+			
 		     }
-#line 1520 "y.tab.c" /* yacc.c:1646  */
+#line 1589 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 228 "java-yacc.y" /* yacc.c:1646  */
-    {(yyval.tree)=(yyvsp[0].tree); (yyval.tree)->type=0; /*sprintf($$->tmp, "t%d", tempno++);if($$->type==1) printf("%s=%d\n",$$->tmp,(int)$1->value);*/}
-#line 1526 "y.tab.c" /* yacc.c:1646  */
+#line 297 "java-yacc.y" /* yacc.c:1646  */
+    {	(yyval.tree)=(yyvsp[0].tree); /*printf("%d\n",$$->type);*/ /*sprintf($$->tmp, "t%d", tempno++);if($$->type==1) printf("%s=%d\n",$$->tmp,(int)$1->value);*/}
+#line 1595 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 233 "java-yacc.y" /* yacc.c:1646  */
+#line 302 "java-yacc.y" /* yacc.c:1646  */
     {union leafval f;f.val2=(yyvsp[0].number); (yyval.tree)=leaf(0,f);}
-#line 1532 "y.tab.c" /* yacc.c:1646  */
+#line 1601 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 234 "java-yacc.y" /* yacc.c:1646  */
+#line 303 "java-yacc.y" /* yacc.c:1646  */
     {
 		if(lookupsymb((yyvsp[0].string))!=NULL)
 		 {
 			union leafval f;
 			strcpy(f.val1,(yyvsp[0].string)); 
 			(yyval.tree)=leaf(2,f);
+			d_list* t=lookupsymb((yyvsp[0].string));
+			(yyval.tree)->value=t->value.val;
 		 }
 	}
-#line 1545 "y.tab.c" /* yacc.c:1646  */
+#line 1616 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 247 "java-yacc.y" /* yacc.c:1646  */
+#line 318 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node(">=",(yyvsp[-2].tree),(yyvsp[0].tree)); if((yyvsp[-2].tree)>=(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1551 "y.tab.c" /* yacc.c:1646  */
+#line 1622 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 248 "java-yacc.y" /* yacc.c:1646  */
+#line 319 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("<=",(yyvsp[-2].tree),(yyvsp[0].tree)); if((yyvsp[-2].tree)<=(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1557 "y.tab.c" /* yacc.c:1646  */
+#line 1628 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 249 "java-yacc.y" /* yacc.c:1646  */
+#line 320 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node(">",(yyvsp[-2].tree),(yyvsp[0].tree));  if((yyvsp[-2].tree)>(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1563 "y.tab.c" /* yacc.c:1646  */
+#line 1634 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 250 "java-yacc.y" /* yacc.c:1646  */
+#line 321 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("<",(yyvsp[-2].tree),(yyvsp[0].tree));  if((yyvsp[-2].tree)<(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1569 "y.tab.c" /* yacc.c:1646  */
+#line 1640 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 251 "java-yacc.y" /* yacc.c:1646  */
+#line 322 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.tree)=new_node("==",(yyvsp[-2].tree),(yyvsp[0].tree));if((yyvsp[-2].tree)==(yyvsp[0].tree)) (yyval.tree)->value=1; else (yyval.tree)->value=0;}
-#line 1575 "y.tab.c" /* yacc.c:1646  */
+#line 1646 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 267 "java-yacc.y" /* yacc.c:1646  */
+#line 338 "java-yacc.y" /* yacc.c:1646  */
     {  if((yyvsp[-1].tree)->type==0)
 						printf("%s=%d\n",(yyvsp[-3].string),(int)(yyvsp[-1].tree)->value);	
 					else if((yyvsp[-1].tree)->type==1)					
@@ -1585,11 +1656,11 @@ yyreduce:
 					strcpy(f.val1,(yyvsp[-3].string)); 					
 					(yyval.tree)=new_node("EQUALS",leaf(2,f),(yyvsp[-1].tree));				
 				       }
-#line 1589 "y.tab.c" /* yacc.c:1646  */
+#line 1660 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1593 "y.tab.c" /* yacc.c:1646  */
+#line 1664 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1817,7 +1888,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 285 "java-yacc.y" /* yacc.c:1906  */
+#line 356 "java-yacc.y" /* yacc.c:1906  */
 
 
 //------SYMBOL TABLE FUNCTIONS---------------------------------

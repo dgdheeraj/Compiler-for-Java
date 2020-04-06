@@ -131,9 +131,13 @@ stmt:
 				{
 					union leafval f;
 					strcpy(f.val1,$1); 					
-					$$=new_node("EQUALS",leaf(2,f),$3);				
+					$$=new_node("EQUALS",leaf(2,f),$3);
+					//Updating Symbol Table
+					d_list* t=lookupsymb($1);	
+					t->value.val=$3->value;			
 				}
 				//Need to Update Symbol Table here
+				
 			 }  
   | var_decl
   | cond_stmts
@@ -171,7 +175,16 @@ T_expr:
 T_expr:
    T_expr '+' T_expr {
 			$$=new_node("ADD",$1,$3); 
-			$$->value=$1->value+$3->value;
+			/*if($1->type==2 || $1->type!=2)
+				$$->value=$1->ptr->value.val+$3->value;
+			else if($1->type!=2 || $1->type==2)
+				$$->value=$1->value+$3->ptr->value.val;
+			else if($1->type==2 || $1->type==2)
+				$$->value=$1->ptr->value.val+$3->ptr->value.val;
+			else*/
+				$$->value=$1->value+$3->value;
+			//if($1->type==2)			
+			//printf("%d\n",$1->ptr->value.val);		
 			sprintf($$->tmp, "t%d", tempno++);
 			if($1->type==0 && $1->type==0)
 				printf("%s=%d+%d\n",$$->tmp,(int)$1->value,(int)$3->value);
@@ -181,11 +194,27 @@ T_expr:
 				printf("%s=%s+%d\n",$$->tmp,$1->tmp,(int)$3->value);
 		        else if($1->type==1 && $3->type==1)
 				printf("%s=%s+%s\n",$$->tmp,$1->tmp,$3->tmp);
-		     
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d+%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s+%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s+%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s+%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			
 		     }
    | T_expr '-' T_expr {
 			$$=new_node("SUB",$1,$3); 
-			$$->value=$1->value-$3->value;
+			/*if($1->type==2 || $1->type!=2)
+				$$->value=$1->ptr->value.val-$3->value;
+			if($1->type!=2 || $1->type==2)
+				$$->value=$1->value-$3->ptr->value.val;
+			if($1->type==2 || $1->type==2)
+				$$->value=$1->ptr->value.val-$3->ptr->value.val;
+			else*/
+				$$->value=$1->value-$3->value;
+			
 			sprintf($$->tmp, "t%d", tempno++);
 			if($1->type==0 && $1->type==0)
 				printf("%s=%d-%d\n",$$->tmp,(int)$1->value,(int)$3->value);
@@ -195,11 +224,27 @@ T_expr:
 				printf("%s=%s-%d\n",$$->tmp,$1->tmp,(int)$3->value);
 		        else if($1->type==1 && $3->type==1)
 				printf("%s=%s-%s\n",$$->tmp,$1->tmp,$3->tmp);
-		     
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d-%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s-%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s-%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s-%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			
 		     }
    | T_expr '*' T_expr{
 			$$=new_node("MUL",$1,$3); 
-			$$->value=$1->value*$3->value;
+			/*if($1->type==2 || $1->type!=2)
+				$$->value=$1->ptr->value.val*$3->value;
+			if($1->type!=2 || $1->type==2)
+				$$->value=$1->value*$3->ptr->value.val;
+			if($1->type==2 || $1->type==2)
+				$$->value=$1->ptr->value.val*$3->ptr->value.val;
+			else*/
+				$$->value=$1->value*$3->value;
+			
 			sprintf($$->tmp, "t%d", tempno++);
 			if($1->type==0 && $1->type==0)
 				printf("%s=%d*%d\n",$$->tmp,(int)$1->value,(int)$3->value);
@@ -209,11 +254,27 @@ T_expr:
 				printf("%s=%s*%d\n",$$->tmp,$1->tmp,(int)$3->value);
 		        else if($1->type==1 && $3->type==1)
 				printf("%s=%s*%s\n",$$->tmp,$1->tmp,$3->tmp);
-		     
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d*%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s*%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s*%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s*%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			
 		     }
-   | T_expr '/' T_expr  {
+   | T_expr '/' T_expr{
 			$$=new_node("DIV",$1,$3); 
-			$$->value=$1->value/$3->value;
+			/*if($1->type==2 || $1->type!=2)
+				$$->value=$1->ptr->value.val/$3->value;
+			if($1->type!=2 || $1->type==2)
+				$$->value=$1->value/$3->ptr->value.val;
+			if($1->type==2 || $1->type==2)
+				$$->value=$1->ptr->value.val/$3->ptr->value.val;
+			else*/
+				$$->value=$1->value/$3->value;
+			
 			sprintf($$->tmp, "t%d", tempno++);
 			if($1->type==0 && $1->type==0)
 				printf("%s=%d/%d\n",$$->tmp,(int)$1->value,(int)$3->value);
@@ -223,9 +284,17 @@ T_expr:
 				printf("%s=%s/%d\n",$$->tmp,$1->tmp,(int)$3->value);
 		        else if($1->type==1 && $3->type==1)
 				printf("%s=%s/%s\n",$$->tmp,$1->tmp,$3->tmp);
-		     
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d/%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s/%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s/%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s/%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			
 		     }
-   | T_Const {$$=$1; $$->type=0; /*sprintf($$->tmp, "t%d", tempno++);if($$->type==1) printf("%s=%d\n",$$->tmp,(int)$1->value);*/}
+   | T_Const {	$$=$1; /*printf("%d\n",$$->type);*/ /*sprintf($$->tmp, "t%d", tempno++);if($$->type==1) printf("%s=%d\n",$$->tmp,(int)$1->value);*/}
 ;
 
 T_Const:
@@ -237,6 +306,8 @@ T_NUM {union leafval f;f.val2=$1; $$=leaf(0,f);}
 			union leafval f;
 			strcpy(f.val1,$1); 
 			$$=leaf(2,f);
+			d_list* t=lookupsymb($1);
+			$$->value=t->value.val;
 		 }
 	}
 ;
