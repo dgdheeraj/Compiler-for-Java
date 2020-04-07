@@ -131,18 +131,14 @@ cond:
 ;
 
  
-var_decl:
+var_decl:	
 	T_INT T_ID ';' { fill($2,0,0);}
 	|T_INT T_ID T_ASSG T_expr ';' {fill($2,$4,0);}
 	|T_FLOAT T_ID ';' { fill($2,0.0,1);}
 	|T_FLOAT T_ID T_ASSG T_expr ';' {fill($2,$4,1);}
 	|T_CHAR T_ID ';' { fill_char($2,'a',2);}
 	|T_CHAR T_ID T_ASSG T_CHARV ';' {fill_char($2,$4[1],2);}
-       //| T_Const T_S_DIV T_Const  {$$=$1/$3;}
-       ;
-
-
-
+;
 
 %%
 int update(char*name,float value){

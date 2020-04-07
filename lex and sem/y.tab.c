@@ -535,9 +535,9 @@ static const yytype_uint8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    73,    73,    76,    79,    80,    81,    84,    87,    88,
-      92,    93,    94,    95,    96,   108,   109,   110,   111,   112,
-     117,   119,   122,   123,   124,   125,   126,   127,   128,   129,
-     134,   135,   136,   137,   138,   139
+      92,    93,    94,    95,    96,   109,   110,   111,   112,   113,
+     118,   120,   123,   124,   125,   126,   127,   128,   129,   130,
+     135,   136,   137,   138,   139,   140
 };
 #endif
 
@@ -1392,79 +1392,79 @@ yyreduce:
     break;
 
   case 15:
-#line 108 "java-yacc.y" /* yacc.c:1646  */
+#line 109 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[-2].number)+(yyvsp[0].number);}
 #line 1398 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 109 "java-yacc.y" /* yacc.c:1646  */
+#line 110 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[-2].number)-(yyvsp[0].number);}
 #line 1404 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 110 "java-yacc.y" /* yacc.c:1646  */
+#line 111 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[-2].number)*(yyvsp[0].number);}
 #line 1410 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 111 "java-yacc.y" /* yacc.c:1646  */
+#line 112 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[-2].number)/(yyvsp[0].number);}
 #line 1416 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 112 "java-yacc.y" /* yacc.c:1646  */
+#line 113 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=(yyvsp[0].number);}
 #line 1422 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 117 "java-yacc.y" /* yacc.c:1646  */
+#line 118 "java-yacc.y" /* yacc.c:1646  */
     {(yyval.number)=lookupsymb((yyvsp[0].string));}
 #line 1428 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 119 "java-yacc.y" /* yacc.c:1646  */
+#line 120 "java-yacc.y" /* yacc.c:1646  */
     { (yyval.number)=(yyvsp[0].number);}
 #line 1434 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 134 "java-yacc.y" /* yacc.c:1646  */
+#line 135 "java-yacc.y" /* yacc.c:1646  */
     { fill((yyvsp[-1].string),0,0);}
 #line 1440 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 135 "java-yacc.y" /* yacc.c:1646  */
+#line 136 "java-yacc.y" /* yacc.c:1646  */
     {fill((yyvsp[-3].string),(yyvsp[-1].number),0);}
 #line 1446 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 136 "java-yacc.y" /* yacc.c:1646  */
+#line 137 "java-yacc.y" /* yacc.c:1646  */
     { fill((yyvsp[-1].string),0.0,1);}
 #line 1452 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 137 "java-yacc.y" /* yacc.c:1646  */
+#line 138 "java-yacc.y" /* yacc.c:1646  */
     {fill((yyvsp[-3].string),(yyvsp[-1].number),1);}
 #line 1458 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 138 "java-yacc.y" /* yacc.c:1646  */
+#line 139 "java-yacc.y" /* yacc.c:1646  */
     { fill_char((yyvsp[-1].string),'a',2);}
 #line 1464 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 139 "java-yacc.y" /* yacc.c:1646  */
+#line 140 "java-yacc.y" /* yacc.c:1646  */
     {fill_char((yyvsp[-3].string),(yyvsp[-1].string)[1],2);}
 #line 1470 "y.tab.c" /* yacc.c:1646  */
     break;
@@ -1698,7 +1698,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 146 "java-yacc.y" /* yacc.c:1906  */
+#line 143 "java-yacc.y" /* yacc.c:1906  */
 
 int update(char*name,float value){
   d_list*node=head;
