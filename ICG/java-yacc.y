@@ -169,7 +169,7 @@ iter_stmts:
 																printf("goto L%d\n",b_lbl);
 																printf("L%d : ",label++);
 															      }
-  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' {printf("t%d=not %s\n",tempno,$3->tmp); 
+  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' {printf("t%d=not %s\n",tempno,$4->tmp); 
 							b_lbl=label;
 							printf("if t%d goto L%d\n",tempno,label+1);
 							printf("L%d : ",label++);}    T_OParen stmts T_CParen { $$=new_node("for",$4,$12);
@@ -209,7 +209,7 @@ T_expr:
 			//if($1->type==2)			
 			//printf("%d\n",$1->ptr->value.val);		
 			sprintf($$->tmp, "t%d", tempno++);
-			if($1->type==0 && $1->type==0)
+			if($1->type==0 && $3->type==0)
 				printf("%s=%d+%d\n",$$->tmp,(int)$1->value,(int)$3->value);
 		      	else if($1->type==0 && $3->type==1)
 				printf("%s=%d+%s\n",$$->tmp,(int)$1->value,$3->tmp);
@@ -239,7 +239,7 @@ T_expr:
 				$$->value=$1->value-$3->value;
 			
 			sprintf($$->tmp, "t%d", tempno++);
-			if($1->type==0 && $1->type==0)
+			if($1->type==0 && $3->type==0)
 				printf("%s=%d-%d\n",$$->tmp,(int)$1->value,(int)$3->value);
 		      	else if($1->type==0 && $3->type==1)
 				printf("%s=%d-%s\n",$$->tmp,(int)$1->value,$3->tmp);
@@ -269,7 +269,7 @@ T_expr:
 				$$->value=$1->value*$3->value;
 			
 			sprintf($$->tmp, "t%d", tempno++);
-			if($1->type==0 && $1->type==0)
+			if($1->type==0 && $3->type==0)
 				printf("%s=%d*%d\n",$$->tmp,(int)$1->value,(int)$3->value);
 		      	else if($1->type==0 && $3->type==1)
 				printf("%s=%d*%s\n",$$->tmp,(int)$1->value,$3->tmp);
@@ -299,7 +299,7 @@ T_expr:
 				$$->value=$1->value/$3->value;
 			
 			sprintf($$->tmp, "t%d", tempno++);
-			if($1->type==0 && $1->type==0)
+			if($1->type==0 && $3->type==0)
 				printf("%s=%d/%d\n",$$->tmp,(int)$1->value,(int)$3->value);
 		      	else if($1->type==0 && $3->type==1)
 				printf("%s=%d/%s\n",$$->tmp,(int)$1->value,$3->tmp);
@@ -339,12 +339,12 @@ cond:
 //TRUE 
 //|FALSE
 T_expr T_GEQ T_expr  {	$$=new_node(">=",$1,$3); 
-			if($1>=$3) 
+			if($1->value>=$3->value) 
 				$$->value=1; 
 			else 
 				$$->value=0;
 			sprintf($$->tmp, "t%d", tempno++);
-			if($1->type==0 && $1->type==0)
+			if($1->type==0 && $3->type==0)
 				printf("%s=%d>=%d\n",$$->tmp,(int)$1->value,(int)$3->value);
 		      	else if($1->type==0 && $3->type==1)
 				printf("%s=%d>=%s\n",$$->tmp,(int)$1->value,$3->tmp);
@@ -360,11 +360,117 @@ T_expr T_GEQ T_expr  {	$$=new_node(">=",$1,$3);
 				printf("%s=%s>=%s\n",$$->tmp,$1->tmp,$3->ptr->name);
 			else if($1->type==2 && $3->type==1)
 				printf("%s=%s>=%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			else if($1->type==2 &&$3->type==2)
+				printf("%s=%s>=%s\n",$$->tmp,$1->ptr->name,$3->ptr->name);
+		     
 		     }
-|T_expr T_LEQ T_expr {$$=new_node("<=",$1,$3); if($1<=$3) $$->value=1; else $$->value=0;}
-|T_expr T_GE T_expr  {$$=new_node(">",$1,$3);  if($1>$3) $$->value=1; else $$->value=0;}
-|T_expr T_LE T_expr  {$$=new_node("<",$1,$3);  if($1<$3) $$->value=1; else $$->value=0;}
-|T_expr T_S_EQ T_expr {$$=new_node("==",$1,$3);if($1==$3) $$->value=1; else $$->value=0;} 
+|T_expr T_LEQ T_expr {
+			$$=new_node("<=",$1,$3); 
+			if($1->value<=$3->value) 
+				$$->value=1; 
+			else $$->value=0;
+			sprintf($$->tmp, "t%d", tempno++);
+			if($1->type==0 && $3->type==0)
+				printf("%s=%d<=%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d<=%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s<=%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s<=%s\n",$$->tmp,$1->tmp,$3->tmp);
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d<=%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s<=%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s<=%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s<=%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			else if($1->type==2 &&$3->type==2)
+				printf("%s=%s<=%s\n",$$->tmp,$1->ptr->name,$3->ptr->name);
+		     
+		     }
+|T_expr T_GE T_expr  {
+			$$=new_node(">",$1,$3);  
+			if($1->value>$3->value) 
+				$$->value=1; 
+			else 
+				$$->value=0;
+			sprintf($$->tmp, "t%d", tempno++);
+			if($1->type==0 && $3->type==0)
+				printf("%s=%d>%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d>%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s>%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s>%s\n",$$->tmp,$1->tmp,$3->tmp);
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d>%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s>%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s>%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s>%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			else if($1->type==2 &&$3->type==2)
+				printf("%s=%s>%s\n",$$->tmp,$1->ptr->name,$3->ptr->name);
+		     }
+|T_expr T_LE T_expr  {
+			$$=new_node("<",$1,$3);  
+			if($1->value<$3->value) 
+				$$->value=1; 
+			else 
+				$$->value=0;
+			sprintf($$->tmp, "t%d", tempno++);
+			printf("%d %d\n",$1->type,$3->type);
+			if($1->type==0 && $3->type==0)
+				printf("%s=%d<%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d<%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s<%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s<%s\n",$$->tmp,$1->tmp,$3->tmp);
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d<%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s<%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s<%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s<%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			else if($1->type==2 &&$3->type==2)
+				printf("%s=%s<%s\n",$$->tmp,$1->ptr->name,$3->ptr->name);
+		     
+		     }
+|T_expr T_S_EQ T_expr {
+			$$=new_node("==",$1,$3);
+			if($1->value==$3->value) 
+				$$->value=1; 
+			else 
+				$$->value=0;
+			sprintf($$->tmp, "t%d", tempno++);
+			if($1->type==0 && $3->type==0)
+				printf("%s=%d==%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d==%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s==%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s==%s\n",$$->tmp,$1->tmp,$3->tmp);
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d==%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s==%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s==%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s==%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+			else if($1->type==2 &&$3->type==2)
+				printf("%s=%s==%s\n",$$->tmp,$1->ptr->name,$3->ptr->name);
+		     
+		     } 
 ;
 
 /* 
