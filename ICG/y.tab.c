@@ -1460,7 +1460,7 @@ yyreduce:
 
   case 14:
 #line 158 "java-yacc.y" /* yacc.c:1646  */
-    {printf("t%d=not %s\n",tempno,(yyvsp[-1].tree)->tmp);printf("if t%d goto L%d\n",tempno,label);}
+    {printf("t%d=not %s\n",tempno++,(yyvsp[-1].tree)->tmp);printf("if t%d goto L%d\n",tempno,label);}
 #line 1465 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1476,7 +1476,7 @@ yyreduce:
 
   case 16:
 #line 168 "java-yacc.y" /* yacc.c:1646  */
-    {printf("t%d=not %s\n",tempno,(yyvsp[-1].tree)->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);}
+    {printf("t%d=not %s\n",tempno++,(yyvsp[-1].tree)->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);}
 #line 1481 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1491,7 +1491,7 @@ yyreduce:
 
   case 18:
 #line 172 "java-yacc.y" /* yacc.c:1646  */
-    {printf("t%d=not %s\n",tempno,(yyvsp[-5].tree)->tmp); 
+    {printf("t%d=not %s\n",tempno++,(yyvsp[-5].tree)->tmp); 
 							b_lbl=label;
 							printf("if t%d goto L%d\n",tempno,label+1);
 							printf("L%d : ",label++);}
@@ -1777,7 +1777,7 @@ yyreduce:
 			else 
 				(yyval.tree)->value=0;
 			sprintf((yyval.tree)->tmp, "t%d", tempno++);
-			printf("%d %d\n",(yyvsp[-2].tree)->type,(yyvsp[0].tree)->type);
+			//printf("%d %d\n",$1->type,$3->type);
 			if((yyvsp[-2].tree)->type==0 && (yyvsp[0].tree)->type==0)
 				printf("%s=%d<%d\n",(yyval.tree)->tmp,(int)(yyvsp[-2].tree)->value,(int)(yyvsp[0].tree)->value);
 		      	else if((yyvsp[-2].tree)->type==0 && (yyvsp[0].tree)->type==1)

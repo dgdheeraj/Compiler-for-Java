@@ -93,7 +93,7 @@ stmt:
   | var_decl
   |T_WHILE '(' cond ')' T_OParen stmts T_CParen
   |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' T_OParen stmts T_CParen
-  | T_DO '{' stmts '}' T_WHILE'(' cond ')' ';'
+  | T_DO '{' stmts '}' T_WHILE'(' cond ')' ';' 
 ;
 
 /*
@@ -181,6 +181,7 @@ int  fill(char* name,float value,int type){
   d_list* newnode=(d_list*) malloc(sizeof(d_list));
   strcpy(newnode->name,name);
   newnode->type=type;
+  //printf("%d\n",n.s);
   newnode->scope=n.s;
   newnode->l=yylineno;
   if(type==0)//Integer

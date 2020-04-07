@@ -18,7 +18,7 @@ public class ex
 		for(int i=0;i<10;i=i+10)
 		{
 		  int d=5;
-		  //int a=6;
+		  int s=6;
 		}
 		char ch='a';
 	}

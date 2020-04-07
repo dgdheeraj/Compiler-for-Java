@@ -155,7 +155,7 @@ stmt:
   ;
 
 cond_stmts:
-  T_IF '(' cond ')' {printf("t%d=not %s\n",tempno,$3->tmp);printf("if t%d goto L%d\n",tempno,label);} T_OParen stmts T_CParen { 
+  T_IF '(' cond ')' {printf("t%d=not %s\n",tempno++,$3->tmp);printf("if t%d goto L%d\n",tempno,label);} T_OParen stmts T_CParen { 
 						$$=new_node("if",$3,$7);
 						printf("L%d: ",label++);
 						
@@ -165,11 +165,11 @@ cond_stmts:
 
 
 iter_stmts:
-  T_WHILE '(' cond ')' {printf("t%d=not %s\n",tempno,$3->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);} T_OParen stmts T_CParen { $$=new_node("while",$3,$7);
+  T_WHILE '(' cond ')' {printf("t%d=not %s\n",tempno++,$3->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);} T_OParen stmts T_CParen { $$=new_node("while",$3,$7);
 																printf("goto L%d\n",b_lbl);
 																printf("L%d : ",label++);
 															      }
-  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' {printf("t%d=not %s\n",tempno,$4->tmp); 
+  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' {printf("t%d=not %s\n",tempno++,$4->tmp); 
 							b_lbl=label;
 							printf("if t%d goto L%d\n",tempno,label+1);
 							printf("L%d : ",label++);}    T_OParen stmts T_CParen { $$=new_node("for",$4,$12);
@@ -423,7 +423,7 @@ T_expr T_GEQ T_expr  {	$$=new_node(">=",$1,$3);
 			else 
 				$$->value=0;
 			sprintf($$->tmp, "t%d", tempno++);
-			printf("%d %d\n",$1->type,$3->type);
+			//printf("%d %d\n",$1->type,$3->type);
 			if($1->type==0 && $3->type==0)
 				printf("%s=%d<%d\n",$$->tmp,(int)$1->value,(int)$3->value);
 		      	else if($1->type==0 && $3->type==1)
