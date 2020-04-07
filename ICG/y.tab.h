@@ -128,7 +128,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 65 "java-yacc.y" /* yacc.c:1909  */
+#line 67 "java-yacc.y" /* yacc.c:1909  */
 
     	float number;
         //float num;

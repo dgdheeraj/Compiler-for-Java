@@ -34,6 +34,8 @@ int yylex(void);
 void yyerror(char *);
 extern int yylineno;
 int tempno=0;// Global Variable for 
+int label=0;
+int b_lbl=0;
 
 //------------AST STRUCT AND DEF------------------
 typedef struct node
@@ -135,6 +137,14 @@ stmt:
 					//Updating Symbol Table
 					d_list* t=lookupsymb($1);	
 					t->value.val=$3->value;			
+					//Printing ICG
+					if($3->type==0)
+						printf("%s=%d\n",$1,(int)$3->value);
+					else if($3->type==1)
+						printf("%s=%s\n",$1,$3->tmp);
+					else if($3->type==2)	
+						printf("%s=%s\n",$1,$3->ptr->name);				
+					
 				}
 				//Need to Update Symbol Table here
 				
@@ -145,13 +155,20 @@ stmt:
   ;
 
 cond_stmts:
-  T_IF '(' cond ')' T_OParen stmts T_CParen { $$=new_node("if",$3,$6);}  
+  T_IF '(' cond ')' {printf("t%d=not %s\n",tempno,$3->tmp);printf("if t%d goto L%d\n",tempno,label);} T_OParen stmts T_CParen { 
+						$$=new_node("if",$3,$7);
+						printf("L%d: ",label++);
+						
+					    }  
 //  | T_IF '(' cond ')' T_OParen stmts T_CParen T_ELSE T_OParen stmts T_CParen
 ;
 
 
 iter_stmts:
-  T_WHILE '(' cond ')' T_OParen stmts T_CParen { $$=new_node("while",$3,$6);}
+  T_WHILE '(' cond ')' {printf("t%d=not %s\n",tempno,$3->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);} T_OParen stmts T_CParen { $$=new_node("while",$3,$7);
+																printf("goto L%d\n",b_lbl);
+																printf("L%d : ",label++);
+															      }
   //|T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' T_OParen stmts T_CParen
 ;
 
@@ -315,7 +332,29 @@ T_NUM {union leafval f;f.val2=$1; $$=leaf(0,f);}
 cond:
 //TRUE 
 //|FALSE
-T_expr T_GEQ T_expr  {$$=new_node(">=",$1,$3); if($1>=$3) $$->value=1; else $$->value=0;}
+T_expr T_GEQ T_expr  {	$$=new_node(">=",$1,$3); 
+			if($1>=$3) 
+				$$->value=1; 
+			else 
+				$$->value=0;
+			sprintf($$->tmp, "t%d", tempno++);
+			if($1->type==0 && $1->type==0)
+				printf("%s=%d>=%d\n",$$->tmp,(int)$1->value,(int)$3->value);
+		      	else if($1->type==0 && $3->type==1)
+				printf("%s=%d>=%s\n",$$->tmp,(int)$1->value,$3->tmp);
+		        else if($1->type==1 && $3->type==0)
+				printf("%s=%s>=%d\n",$$->tmp,$1->tmp,(int)$3->value);
+		        else if($1->type==1 && $3->type==1)
+				printf("%s=%s>=%s\n",$$->tmp,$1->tmp,$3->tmp);
+		        else if($1->type==0 && $3->type==2)
+				printf("%s=%d>=%s\n",$$->tmp,(int)$1->value,$3->ptr->name);
+			else if($1->type==2 && $3->type==0)
+				printf("%s=%s>=%d\n",$$->tmp,$1->ptr->name,(int)$3->value);
+			else if($1->type==1 && $3->type==2)
+				printf("%s=%s>=%s\n",$$->tmp,$1->tmp,$3->ptr->name);
+			else if($1->type==2 && $3->type==1)
+				printf("%s=%s>=%s\n",$$->tmp,$1->ptr->name,$3->tmp);
+		     }
 |T_expr T_LEQ T_expr {$$=new_node("<=",$1,$3); if($1<=$3) $$->value=1; else $$->value=0;}
 |T_expr T_GE T_expr  {$$=new_node(">",$1,$3);  if($1>$3) $$->value=1; else $$->value=0;}
 |T_expr T_LE T_expr  {$$=new_node("<",$1,$3);  if($1<$3) $$->value=1; else $$->value=0;}
