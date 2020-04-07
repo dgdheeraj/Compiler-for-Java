@@ -9,7 +9,7 @@ public class ex
 		//float r;
 		//a=6;
       		int e=2;	
-		while( e >= 1)
+		for(int i=0;i<e;i=i+1)
 		{
       			int a = 12*4/e+1;
 			int d=1;

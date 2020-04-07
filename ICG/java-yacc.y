@@ -169,7 +169,13 @@ iter_stmts:
 																printf("goto L%d\n",b_lbl);
 																printf("L%d : ",label++);
 															      }
-  //|T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' T_OParen stmts T_CParen
+  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' {printf("t%d=not %s\n",tempno,$3->tmp); 
+							b_lbl=label;
+							printf("if t%d goto L%d\n",tempno,label+1);
+							printf("L%d : ",label++);}    T_OParen stmts T_CParen { $$=new_node("for",$4,$12);
+														printf("goto L%d\n",b_lbl);
+														printf("L%d : ",label++);
+													      }
 ;
 
 /*

@@ -83,6 +83,8 @@ void preorder(node* root);
 %type<tree> T_expr
 %token T_PUBLIC T_STATIC T_VOID T_STRING T_ARGS
 %token  T_WHILE T_MAIN  T_DO T_FOR T_IF T_ELSE
+%type<tree> T_WHILE
+%type<tree> T_FOR
 %token T_INT  T_CLASS  T_IMPORT T_FLOAT T_CHAR 
 %token T_CHARV
 %type<string> T_CHARV
@@ -146,7 +148,7 @@ cond_stmts:
 
 iter_stmts:
   T_WHILE '(' cond ')' T_OParen stmts T_CParen { $$=new_node("while",$3,$6);}
-  //|T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' T_OParen stmts T_CParen
+  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' T_OParen stmts T_CParen { $$=new_node("for",$4,$11);}
 ;
 
 /*
