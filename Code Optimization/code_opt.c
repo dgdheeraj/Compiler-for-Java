@@ -1,8 +1,78 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+int check(char* v_name,char** cp,int cpi)
+{
+    char* p;
+    for(int i=0;i<=cpi;i++)
+    {
+        // printf("%s\n",cp[i]);
+        //Get Var_name
+        p=cp[i];
+        int j=0;
+        char v[10];
+        int vi=-1;
+        while(j<strlen(cp[i]) && cp[i][j]>=97 && cp[i][j]<=122)
+        {
+            vi+=1;
+            v[vi]=cp[i][j];
+            j++;
+        }
+        vi+=1;
+        v[vi]='\0';
+        // printf("%s\n",v);
+        // printf("%d %s %s\n",strcmp(v_name,v),v_name,v);
+        if(strcmp(v_name,v)==0)
+        {
+            printf("%s matches\n",v);
+            return i;
+        }
+    }
+    return -1;
+}
 
-
+char *replaceWord(const char *s, const char *oldW, 
+                                 const char *newW) 
+{ 
+    char *result; 
+    int i, cnt = 0; 
+    int newWlen = strlen(newW); 
+    int oldWlen = strlen(oldW); 
+  
+    // Counting the number of times old word 
+    // occur in the string 
+    for (i = 0; s[i] != '\0'; i++) 
+    { 
+        if (strstr(&s[i], oldW) == &s[i]) 
+        { 
+            cnt++; 
+  
+            // Jumping to index after the old word. 
+            i += oldWlen - 1; 
+        } 
+    } 
+  
+    // Making new string of enough length 
+    result = (char *)malloc(i + cnt * (newWlen - oldWlen) + 1); 
+  
+    i = 0; 
+    while (*s) 
+    { 
+        // compare the substring with the result 
+        if (strstr(s, oldW) == s) 
+        { 
+            strcpy(&result[i], newW); 
+            i += newWlen; 
+            s += oldWlen; 
+        } 
+        else
+            result[i++] = *s++; 
+    } 
+  
+    result[i] = '\0'; 
+    return result; 
+} 
+  
 int main()
 {
     char fil_p[100000][10];
@@ -85,7 +155,7 @@ int main()
                     //Storing all the constants in cpi
                     cpi+=1;
                     strcpy(cp[cpi],var_name);
-                    
+
                 }
             }
             i++;
@@ -112,13 +182,16 @@ int main()
             i++;
         }
 
-
         char v_n[20];
         int v_ind=-1;
         int start_ind;
         if(fil[j][i]==61)
         {
             i+=1;
+            char* t;
+            char* r=(char*)malloc(sizeof(char)*100);
+            strcpy(r,fil[j]);
+            // char t[100];
             while(i<strlen(fil[j]))      
             {
                 if(fil[j][i]>=97 && fil[j][i]<=122)
@@ -135,14 +208,40 @@ int main()
                     }
                     v_ind+=1;
                     v_n[v_ind]='\0';
-                    printf("%s %d\n",v_n,start_ind);
-                        
+                    // printf("%s %d\n",v_n,start_ind);
+                    int e=check(v_n,cp,cpi);
+                    if(e!=-1)
+                    {
+                        //Get the number
+                        char num[100];
+                        int num_i=-1;
+                        int rec=0;
+                        while(rec<strlen(cp[e]) )
+                        {
+                            if( cp[e][rec]>=48 && cp[e][rec]<=57)
+                            {
+                                num_i+=1;
+                                num[num_i]=cp[e][rec];
+                            }
+                            // printf("%c",cp[e][rec]);
+                            rec++;
+                        }
+                        num_i+=1;
+                        num[num_i]='\0';
+                        t=replaceWord(r,v_n,num);
+                        r=t;
+                        // printf("%s %d\n",r,strlen(r));
+                    }
                 }
                 i+=1;
             }
+            new_ind+=1;
+            strcpy(new_s[new_ind],r);
         }
         j++;
     }
+    for(int i=0;i<new_ind;i++)
+        printf("%s\n",new_s[i]);
 
     
 }
