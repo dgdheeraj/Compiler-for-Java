@@ -178,7 +178,6 @@ int main()
         i=0;
         while(fil[j][i]!=61)
         {
-            // printf("%c\n",fil[j][i]);
             i++;
         }
 
@@ -243,5 +242,8 @@ int main()
     for(int i=0;i<new_ind;i++)
         printf("%s\n",new_s[i]);
 
-    
+    //Final result from 
+
+    //Constant Folding
+        
 }
