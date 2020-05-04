@@ -242,7 +242,7 @@ int main()
     for(int i=0;i<new_ind;i++)
         printf("%s\n",new_s[i]);
 
-    //Final result from 
+    //Final result from Constant Folding is stored new_s(A 2d array of the entire ICG) and size of the array is new_ind(num of lines) 
 
     //Constant Folding
         
