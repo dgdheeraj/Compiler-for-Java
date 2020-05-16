@@ -22,3 +22,4 @@ if t10 goto L4
 L3 : r=1
 goto L3
 L4 : y=1+e
+z=1+e

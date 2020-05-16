@@ -1,0 +1,29 @@
+Lexical Analysis and Semantic Analysis 
+lex lex1.l
+yacc -d java-yacc.y
+gcc lex.yy.c y.tab.c -ly -ll
+./a.out < ex.java
+
+Abstract Syntax Tree
+cd ..
+cd AST
+lex lex1.l
+yacc -d java-yacc.y
+gcc lex.yy.c y.tab.c -ly -ll
+./a.out < ex.java
+
+Intermediate Code Generation
+cd..
+cd ICG
+lex lex1.l
+yacc -d java-yacc.y
+gcc lex.yy.c y.tab.c -ly -ll
+./a.out < ex.java > icg.txt
+
+Copy icg.txt to the Code Optimization Folder
+Code Optimization
+python3 optimize.py icg.txt > opt_icg.txt
+
+Copy opt_icg.txt to Assembly Folder
+Assembly Code Generation
+python3 assembly_gen.py
