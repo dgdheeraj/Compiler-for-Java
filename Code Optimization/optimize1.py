@@ -7,147 +7,115 @@ if len(sys.argv) != 2:
 
 icg_file = sys.argv[1]
 
-# icg_file = "Output/icg.txt"
-
-istemp = lambda s : bool(re.match(r"^t[0-9]*$", s)) 		#temporary variable
-isid = lambda s : bool(re.match(r"^[A-Za-z][A-Za-z0-9_]*$", s)) #id + temporary variable
-
-binary_operators = {"+", "-", "*", "/", "*", "&", "|", "^", "==", ">=", "<=", "!=", ">", "<"}
-
-def printicg(list_of_lines, message = "") :
-	print(message.upper())
+def printicg(list_of_lines,) :
 	for line in list_of_lines :
 		print(line.strip())
 
-
 def eval_wrap(line) :
-	tokens = line.split()
-	if len(tokens) != 5 :
+	final=''
+	line1=line
+	if(':' in line):
+		st=line[:line.index(':')+1]
+		final+=st
+		line1=line[line.index(':')+1:]
+	
+	if('+' in line or '-' in line or '*' in line or '/' in line or '>' in line or '>=' in line or '<' in line or '<=' in line):
+		var=re.findall("\w+",line1)
+		if(len(re.findall("^\d+",var[1]))!=0 and len(re.findall("^\d+",var[2]))!=0):
+			val=0
+			if('+' in line):
+				val=int(var[1])+int(var[2])
+			if('-' in line):
+				val=int(var[1])-int(var[2])
+			if('*' in line):
+				val=int(var[1])*int(var[2])
+			if('/' in line):
+				val=int(var[1])/int(var[2])
+			if('>' in line):
+				val=int(var[1])>int(var[2])
+			if('>=' in line):
+				val=int(var[1])>=int(var[2])
+			if('<' in line):
+				val=int(var[1])<int(var[2])
+			if('<=' in line):
+				val=int(var[1])<=int(var[2])
+			# print(var)
+			if(val==True):
+				val=1
+			if(val==False):
+				val=0
+			final+=var[0]+"="+str(val)
+			return final
 		return line
-	if tokens[1] != "=" or tokens[3] not in binary_operators:
-		return line
-	#tokens = tokens[2:]
-	if tokens[2].isdigit() and tokens[4].isdigit() :
-		result = eval(str(tokens[2] + tokens[3] + tokens[4]))
-		return " ".join([tokens[0], tokens[1], str(result)])
-	if tokens[2].isdigit() or tokens[4].isdigit() : #Replace the identifier with a number and evaluate
-		op1 = "5" if isid(tokens[2]) else tokens[2]
-		op2 = "5" if isid(tokens[4]) else tokens[4]
-		op = tokens[3]
-		try : 
-			result = int(eval(op1+op+op2))
-			if result == 0 : #multiplication with 0
-				return " ".join([tokens[0],tokens[1], "0"])
-			elif result == 5 : #add zero, subtract 0, multiply 1, divide 1
-				if isid(tokens[2]) and tokens[4].isdigit() :
-					return " ".join([tokens[0], tokens[1], tokens[2]])
-				elif isid(tokens[4]) and tokens[2].isdigit():
-					return " ".join([tokens[0], tokens[1], tokens[4]])
-			elif result == -5 and tokens[2] == "0" : # 0 - id
-				return " ".join([tokens[0], tokens[1], "-"+tokens[4]])
-			return " ".join(tokens)
-
-		except NameError :
-			return line
-		except ZeroDivisionError :
-			print("Division By Zero is undefined")
-			quit()
 	return line
 
-
 def fold_constants(list_of_lines) :
-	"""
-	Some expressions that can have a definite answer need not be waste run time resources :
-	e.g.
-	1. number + number, number - number etc.
-	2. identifier + 0, identfier / 0, identifer - 0, identifier*0 and their commutatives
-	3. identifier * 1, identifier / 1
-	"""
-
 	new_list_of_lines = []
 	for line in list_of_lines :
 		new_list_of_lines.append(eval_wrap(line))
 	return new_list_of_lines
 
-def remove_dead_code(list_of_lines) :
-	"""
-Temporaries that are never assigned to any variable nor used in any expression are deleted. Done recursively.
-	"""
-	num_lines = len(list_of_lines)
-	temps_on_lhs = set()
-	for line in list_of_lines :
-		tokens = line.split()
-		if istemp(tokens[0]) :
-			temps_on_lhs.add(tokens[0])
 
-	useful_temps = set()
-	for line in list_of_lines :
-		tokens = line.split()
-		if len(tokens) >= 2 :
-			if istemp(tokens[1]) :
-				useful_temps.add(tokens[1])
-		if len(tokens) >= 3 :
-			if istemp(tokens[2]) :	
-				useful_temps.add(tokens[2])
 
-	temps_to_remove = temps_on_lhs - useful_temps
+
+
+
+
+
+def const_prop(list_of_lines):
 	new_list_of_lines = []
+	constants=dict()
+
+	#get constants
 	for line in list_of_lines :
-		tokens = line.split()
-		if tokens[0] not in temps_to_remove :
+		final=''
+		line1=line
+		if(':' in line):
+			st=line[:line.index(':')+1]
+			final+=st
+			line1=line[line.index(':')+1:]
+		check=re.findall("^[a-zA-Z]+\d*=\d+$",line1)
+		if(len(check)!=0):
+			# print(check)
+			vval=check[0].split("=")
+			# print(vval)
+			constants[vval[0]]=vval[1]
+	# print(constants)
+
+	#Replace constants
+	for line in list_of_lines :
+		if "if" in line:
 			new_list_of_lines.append(line)
-	if num_lines == len(new_list_of_lines) :
-		return new_list_of_lines
-	return remove_dead_code(new_list_of_lines)
+			continue
+		
+		final=''
+		line1=line
+		if(':' in line):
+			st=line[:line.index(':')+1]
+			final+=st
+			line1=line[line.index(':')+1:]
 
-"""
+		if("=" not in line1):
+			new_list_of_lines.append(line)
+			continue
+			
+		lhs=line1[:line1.index("=")+1]
+		rhs=line1[line1.index("=")+1:]
+		# lag=0
+		for c in constants.keys():
+			# print(line1.index("="))
+			if(c in rhs):
+				rhs=rhs.replace(c,constants[c])
+				# t=final+lhs+rhs.replace(c,constants[c])
+				# print(final)
+				# new_list_of_lines.append(final)
+				# flag=1
+		l=final+lhs+rhs
+		# if(flag==0):
+		new_list_of_lines.append(l)
 
-# { rhs : lhs }
-a = 3 + 1
-b = 3 + 1
-
-{}
-
-def wrap_temps(list_of_lines, unique_temps = 100) :
-	temps_for_reuse = set()
-	number_of_lines = len(list_of_lines)
-	for i in range(number_of_lines) :
-		tokens = list_of_lines[i].split()
-		if len(tokens) == 5 and istemp(tokens[4]) : #a temp has been assigned to something else
-"""
-def make_subexpression_dict(list_of_lines) :
-	expressions = {}
-	variables = {}
-	for line in list_of_lines :
-		tokens = line.split()
-		if len(tokens) == 5 :
-			# print("variables",variables)
-			if tokens[0] in variables and variables[tokens[0]] in expressions :
-				print("here")
-				print(tokens[0], variables[tokens[0]], expressions[variables[tokens[0]]])
-				del expressions[variables[tokens[0]]]
-			rhs = tokens[2] + " " + tokens[3] + " " + tokens[4]
-			if rhs not in expressions :
-				expressions[rhs] = tokens[0]
-				if isid(tokens[2]) :
-					variables[tokens[2]] = rhs
-				if isid(tokens[4]) :
-					variables[tokens[4]] = rhs
-	return expressions
-
-def eliminate_common_subexpressions(list_of_lines) :
-	expressions = make_subexpression_dict(list_of_lines)
-	print(expressions)
-	lines = len(list_of_lines)
-	new_list_of_lines = list_of_lines[:]
-	for i in range(lines) :
-		tokens = list_of_lines[i].split()
-		if len(tokens) == 5 :
-			rhs = tokens[2] + " " + tokens[3] + " " + tokens[4]
-			if rhs in expressions and expressions[rhs] != tokens[0]:
-				new_list_of_lines[i] = tokens[0] + " " + tokens[1] + " " + expressions[rhs]
 	return new_list_of_lines
-				
+
 
 if __name__ == "__main__" :
 
@@ -160,29 +128,13 @@ if __name__ == "__main__" :
 		list_of_lines.append(line)
 	f.close()
 
-	printicg(list_of_lines, "ICG")
-	print("\n")
+	# printicg(list_of_lines, "ICG")
+	# print("\n")
 
+	constant_prop=const_prop(list_of_lines)
 
-	eliminated_common_subexpressions = eliminate_common_subexpressions(list_of_lines)
-	print("\n")
-	printicg(eliminated_common_subexpressions, "Optimized ICG after eliminating common subexpressions")
-	print("\n")
-
-	folded_constants = fold_constants(eliminated_common_subexpressions)
-	printicg(folded_constants, "Optimized ICG after constant folding")
-	print("\n")
-
-	#testing 
-	without_deadcode = remove_dead_code(folded_constants)
-	printicg(without_deadcode, "Optimized ICG after removing dead code")
-
-	print("\n")
-	print("Eliminated", len(list_of_lines)-len(without_deadcode), "lines of code")
-	print("\n")
-	
-
-#adding dead code in the end
+	folded_constants = fold_constants(constant_prop)
+	printicg(folded_constants)
 
 
 

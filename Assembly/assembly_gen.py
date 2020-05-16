@@ -79,7 +79,7 @@ for line in icg:
     # +
     if('+' in line or '-' in line or '*' in line or '/' in line or '>' in line or '>=' in line or '<' in line or '<=' in line):
         var=re.findall("\w+",line1)
-
+        # print(var)
         # var + var
         if(len(re.findall("^[a-z]+(\d)*",var[1]))!=0 and len(re.findall("^[a-z]+(\d)*",var[2]))!=0):
             r+=1
