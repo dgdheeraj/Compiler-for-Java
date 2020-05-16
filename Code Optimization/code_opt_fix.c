@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+
 int check(char* v_name,char** cp,int cpi)
 {
     char* p;
@@ -237,8 +238,98 @@ int main()
 	strcpy(fil[j],r);
 	j+=1;    
     } 
-    for(int a=0;a<len;a++)
-      printf("%s\n",fil[a]);
+
+    // for(int a=0;a<len;a++)
+    //   printf("%s\n",fil[a]);
+
+
+
+
+
+    //+-*/
+    i=0;
+    j=0;
+    while(j<len)
+    {
+        i=0;
+	//Skip If statements
+	if(fil[j][0]=='i' && fil[j][0]=='j')
+	{
+		j+=1;
+		continue;
+	} 
+    //If Label is present skip it
+    if(fil[j][0]=='L')
+    {
+        while(fil[j][i]!=' ')
+            i++;
+    }
+
+	//LHS
+	char var_name[20];
+	int var_ind=-1;	
+	while(fil[j][i]!=61)
+	{
+		var_ind+=1;
+		var_name[var_ind]=fil[j][i];
+		i+=1;
+	}
+	var_ind+=1;
+	var_name[var_ind]='\0';
+	// printf("%s\n",var_name);
+        
+	i+=1;
+	
+	char d[20];
+	int d_ind=-1;
+	//Getting the number
+	while(i<strlen(fil[j]) && fil[j][i]>=48 && fil[j][i]<=57)
+	{    
+		d_ind+=1;
+                d[d_ind]=fil[j][i];
+                i++;
+        }
+	d_ind+=1;
+	d[d_ind]='\0';
+	
+    if(fil[j][i]=='+' || fil[j][i]=='-' || fil[j][i]=='*' || fil[j][i]=='/')
+    {
+        
+        char op=fil[j][i];
+        char d1[20];
+	    int d_ind1=-1;
+	    i+=1;
+        //Getting the number
+	    while(i<strlen(fil[j]) && fil[j][i]>=48 && fil[j][i]<=57)
+	    {    
+            d_ind1+=1;
+            d1[d_ind1]=fil[j][i];
+            i++;
+        }
+	    d_ind1+=1;
+	    d1[d_ind1]='\0';
+
+        int val;
+        if(op=='+')
+        {
+            val=atoi(d)+atoi(d1);
+            // printf("%d\n",);
+        }
+        char f[20];
+        printf("%s + %s\n",d,d1);
+        
+    }
+    //If the number is the last thing in the statement
+    if(fil[j][i]=='\0')
+	{
+		//printf("Constant FOund\n");
+		strcat(var_name,d);
+		cpi+=1;		
+		strcpy(cp[cpi],var_name);
+	}	
+	j++;
+    }
+
 }
 
 
