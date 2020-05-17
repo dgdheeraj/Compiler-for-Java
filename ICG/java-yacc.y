@@ -155,7 +155,7 @@ stmt:
   ;
 
 cond_stmts:
-  T_IF '(' cond ')' {printf("t%d=not %s\n",tempno++,$3->tmp);printf("if t%d goto L%d\n",tempno,label);} T_OParen stmts T_CParen { 
+  T_IF '(' cond ')' {printf("t%d=not %s\n",tempno,$3->tmp);printf("if t%d goto L%d\n",tempno,label);} T_OParen stmts T_CParen { 
 						$$=new_node("if",$3,$7);
 						printf("L%d: ",label++);
 						
@@ -165,11 +165,11 @@ cond_stmts:
 
 
 iter_stmts:
-  T_WHILE '(' cond ')' {printf("t%d=not %s\n",tempno++,$3->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);} T_OParen stmts T_CParen { $$=new_node("while",$3,$7);
+  T_WHILE '(' cond ')' {printf("t%d=not %s\n",tempno,$3->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);} T_OParen stmts T_CParen { $$=new_node("while",$3,$7);
 																printf("goto L%d\n",b_lbl);
 																printf("L%d : ",label++);
 															      }
-  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' {printf("t%d=not %s\n",tempno++,$4->tmp); 
+  |T_FOR '(' var_decl cond ';' T_ID T_ASSG T_expr ')' {printf("t%d=not %s\n",tempno,$4->tmp); 
 							b_lbl=label;
 							printf("if t%d goto L%d\n",tempno,label+1);
 							printf("L%d : ",label++);}    T_OParen stmts T_CParen { $$=new_node("for",$4,$12);
@@ -555,7 +555,7 @@ int  fill(char* name,float value,int type){
   	newnode->value.valu=value;
   newnode->next=head;
   head=newnode;
-   
+  return 1;
 }
 
 int  fill_char(char* name,char value,int type){
@@ -590,7 +590,7 @@ int  fill_char(char* name,char value,int type){
   }
   newnode->next=head;
   head=newnode;
-   
+  return 1;
 }
 
 void display(){
@@ -646,6 +646,7 @@ node* initialize_node()
     tmp->value=0;
     tmp->tmp=(char*)malloc(sizeof(char)*30);
     tmp->token=(char*)malloc(sizeof(char)*30);
+    return tmp;
 }
 
 node* leaf(int type,union leafval f)

@@ -1460,7 +1460,7 @@ yyreduce:
 
   case 14:
 #line 158 "java-yacc.y" /* yacc.c:1646  */
-    {printf("t%d=not %s\n",tempno++,(yyvsp[-1].tree)->tmp);printf("if t%d goto L%d\n",tempno,label);}
+    {printf("t%d=not %s\n",tempno,(yyvsp[-1].tree)->tmp);printf("if t%d goto L%d\n",tempno,label);}
 #line 1465 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1476,7 +1476,7 @@ yyreduce:
 
   case 16:
 #line 168 "java-yacc.y" /* yacc.c:1646  */
-    {printf("t%d=not %s\n",tempno++,(yyvsp[-1].tree)->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);}
+    {printf("t%d=not %s\n",tempno,(yyvsp[-1].tree)->tmp); b_lbl=label;printf("if t%d goto L%d\n",tempno,label+1);printf("L%d : ",label++);}
 #line 1481 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1491,7 +1491,7 @@ yyreduce:
 
   case 18:
 #line 172 "java-yacc.y" /* yacc.c:1646  */
-    {printf("t%d=not %s\n",tempno++,(yyvsp[-5].tree)->tmp); 
+    {printf("t%d=not %s\n",tempno,(yyvsp[-5].tree)->tmp); 
 							b_lbl=label;
 							printf("if t%d goto L%d\n",tempno,label+1);
 							printf("L%d : ",label++);}
@@ -2128,7 +2128,7 @@ int  fill(char* name,float value,int type){
   	newnode->value.valu=value;
   newnode->next=head;
   head=newnode;
-   
+  return 1;
 }
 
 int  fill_char(char* name,char value,int type){
@@ -2163,7 +2163,7 @@ int  fill_char(char* name,char value,int type){
   }
   newnode->next=head;
   head=newnode;
-   
+  return 1;
 }
 
 void display(){
@@ -2219,6 +2219,7 @@ node* initialize_node()
     tmp->value=0;
     tmp->tmp=(char*)malloc(sizeof(char)*30);
     tmp->token=(char*)malloc(sizeof(char)*30);
+    return tmp;
 }
 
 node* leaf(int type,union leafval f)

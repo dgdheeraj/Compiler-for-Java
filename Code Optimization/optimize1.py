@@ -80,7 +80,7 @@ def const_prop(list_of_lines):
 			vval=check[0].split("=")
 			# print(vval)
 			constants[vval[0]]=vval[1]
-	# print(constants)
+	#print(constants)
 
 	#Replace constants
 	for line in list_of_lines :
@@ -106,13 +106,14 @@ def const_prop(list_of_lines):
 			# print(line1.index("="))
 			if(c in rhs):
 				rhs=rhs.replace(c,constants[c])
+				#print("fhhhhhhhhhhhhhhhhhhh",rhs)									
 				# t=final+lhs+rhs.replace(c,constants[c])
 				# print(final)
 				# new_list_of_lines.append(final)
 				# flag=1
-		
+		#print("rhs",rhs)
 		l=final+lhs+rhs
-		# print(line,l)
+		#print(line,l)
 		# if(flag==0):
 		new_list_of_lines.append(l)
 
@@ -164,10 +165,10 @@ if __name__ == "__main__" :
 	# print("\n")
 
 	constant_prop=const_prop(list_of_lines)
-
+	
 	folded_constants = fold_constants(constant_prop)
 	# printicg(folded_constants)
 	# common_sub_expr(list_of_lines)
-	printicg(common_sub_expr(list_of_lines))
+	printicg(common_sub_expr(folded_constants))
 
 

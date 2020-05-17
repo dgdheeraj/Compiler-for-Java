@@ -53,21 +53,10 @@ for line in icg:
                 print(st)
                 st="NOT R{}".format(r)
                 print(st)
-                st="STR {},R{}".format(r,lhs_var)
+                st="STR {},R{}".format(lhs_var,r)
                 print(st)
                 r=busyreg.pop(-1)
                 emptyreg.append(r)
-
-            #Not operation on value
-            if(re.findall("^\d*",v)!=0):
-                lhs_var=check1[0].split("=")[0]
-                r=emptyreg.pop(0)
-                busyreg.append(r)
-                st="LDR R{},#{}".format(r,v)
-                print(st)
-                st="NOT R{}".format(r)
-                print(st)
-                st="STR {},R{}".format(lhs_var,v)
 
         #If var assignment
         if( check1[0].split("=")[1]!="not"):
@@ -110,13 +99,13 @@ for line in icg:
             if('/' in line1):
                 st="DIV {},{},{}".format(var[1],var[1],var[2])
             if('>' in line1):
-                st="DIV {},{},{}".format(var[1],var[1],var[2])
+                st="CMP {},{},{}".format(var[1],var[1],var[2])
             if('>=' in line1):
-                st="DIV {},{},{}".format(var[1],var[1],var[2])
+                st="CMP {},{},{}".format(var[1],var[1],var[2])
             if('<' in line1):
-                st="DIV {},{},{}".format(var[1],var[1],var[2])
+                st="CMP {},{},{}".format(var[1],var[1],var[2])
             if('<=' in line1):
-                st="DIV {},{},{}".format(var[1],var[1],var[2])
+                st="CMP {},{},{}".format(var[1],var[1],var[2])
             
             print(st)
             st="STR {},{}".format(var[0],var[1])

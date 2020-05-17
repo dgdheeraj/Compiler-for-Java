@@ -1,11 +1,24 @@
 e=2
 i=0
-t0=i>e
+t0=0
 t1=not t0
-if t2 goto L0
-t2=12*4
-t3=t2/e
-t4=t3+1
-a=t4
+if t1 goto L0
+t1=48
+t2=t1/2
+t3=t2+1
+a=t3
 d=1
 L0: a=5
+w=0
+t4=1
+t5=1
+t6=not t4
+if t6 goto L2
+L1 : q=1
+goto L1
+L2 : t6=a<10
+t7=not t6
+if t7 goto L4
+L3 : r=1
+goto L3
+L4 :
