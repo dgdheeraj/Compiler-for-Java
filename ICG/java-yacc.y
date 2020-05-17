@@ -112,7 +112,7 @@ class_def:
 modifier Class_head
 ;
 Class_head:
-T_CLASS T_ID T_OParen main_stmt T_CParen   {display();}
+T_CLASS T_ID T_OParen main_stmt T_CParen   {/*display();*/}
 ;
 modifier:
 T_PUBLIC  

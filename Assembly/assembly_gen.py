@@ -1,10 +1,17 @@
 import math
 import re
+import sys
 
 emptyreg=[3,4,5,6,7,8,9,10,11,12]
 busyreg=[]
 
-fil=open("sample1.txt","r")
+if len(sys.argv) != 2: 
+    print("Correct usage: Enter filename\n")
+    exit()
+
+if len(sys.argv) == 2 :
+	icg_file = str(sys.argv[1])
+fil=open(icg_file,"r")
 icg=fil.readlines(1200)
 r=-1
 # print(icg)

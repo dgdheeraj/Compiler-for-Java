@@ -1410,7 +1410,7 @@ yyreduce:
     {
         case 3:
 #line 115 "java-yacc.y" /* yacc.c:1646  */
-    {display();}
+    {/*display();*/}
 #line 1415 "y.tab.c" /* yacc.c:1646  */
     break;
 

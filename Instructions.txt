@@ -26,4 +26,4 @@ python3 optimize.py icg.txt > opt_icg.txt
 
 Copy opt_icg.txt to Assembly Folder
 Assembly Code Generation
-python3 assembly_gen.py
+python3 assembly_gen.py opt_icg.txt > assembly.txt

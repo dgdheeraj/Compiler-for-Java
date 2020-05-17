@@ -1,0 +1,11 @@
+e=2
+i=0
+t0=i>e
+t1=not t0
+if t2 goto L0
+t2=12*4
+t3=t2/e
+t4=t3+1
+a=t4
+d=1
+L0: a=5
