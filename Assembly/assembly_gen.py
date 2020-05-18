@@ -33,8 +33,14 @@ for line in icg:
     #Constant Assignment
     if(len(check)!=0):
         var=check[0].split("=")
-        st="STR {},#{}".format(var[0],var[1])
+        r=emptyreg.pop(0)
+        busyreg.append(r)
+        st="MOV R{},#{}".format(var[1],r)
+        print(st)        
+        st="STR {},R{}".format(var[0],r)
         print(st)
+        r=busyreg.pop(-1)
+        emptyreg.append(r)
 
     #Variable Assignment
     if(len(check1)!=0):
