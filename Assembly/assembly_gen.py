@@ -107,26 +107,63 @@ for line in icg:
             if('>' in line1):
                 st="CMP R{},R{}".format(var[1],var[2])
                 print(st)
+
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
                 st="MOVGT R{},#1".format(var[1])
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
                 # print(st)
                 # st="MOVNGT R{},#0".format(var[1])
                 # st="GT {},{},{}".format(var[1],var[1],var[2])
             if('>=' in line1):
                 st="CMP {},{}".format(var[1],var[2])
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
                 st="MOVGE {},#1".format(var[1])
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
                 # print(st)
                 # st="MOVNGE {},#0".format(var[1])
             if('<' in line1):
                 st="CMP {},{}".format(var[1],var[2])
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
+                
                 st="MOVLT {},#1".format(var[1])
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
                 # print(st)
                 # st="MOVNLT {},#0".format(var[1]) 
             if('<=' in line1):
                 st="CMP {},{}".format(var[1],var[2])
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
                 st="MOVLE {},#1".format(var[1])
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
                 # print(st)
                 # st="MOVNLE {},#0".format(var[1])
                 
@@ -180,25 +217,59 @@ for line in icg:
             if('>' in line1):
                 st="CMP R{},#{}".format(var[1],re.findall("^\d+",var[2])[0])
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
+                
                 st="MOVGT R{},#1".format(var[1])
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
                 # print(st)
                 # st="MOVNGT R{},#0".format(var[1])
             if('>=' in line1):
                 st="CMP {},#{}".format(var[1],re.findall("^\d+",var[2])[0])
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
                 st="MOVGE {},#1".format(var[1])
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
                 # print(st)
                 # st="MOVNGE {},#1".format(var[1])
             if('<' in line1):
                 st="CMP {},#{}".format(var[1],re.findall("^\d+",var[2])[0])
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
                 st="MOVLT {},#1".format(var[1])
-                # print(st)
-                # st="MOVNLT {},#0".format(var[1])
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+
             if('<=' in line1):
                 st="CMP {},#{}".format(var[1],re.findall("^\d+",var[2])[0])
                 print(st)
-                st="MOVLE {},#1".format(var[1])
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                st="MOVLT {},#1".format(var[1])
+                
+                # st="MOVLE {},#1".format(var[1])
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
                 # print(st)
                 # st="MOVNLE {},#0".format(var[1])
             print(st)
@@ -226,22 +297,57 @@ for line in icg:
             if('>' in line1):
                 st="CMP {},{}".format(var[2],re.findall("^\d+",var[1])[0] )
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
                 st="MOVGT {},#1".format(var[2])
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
                 # print(st)
                 # st=
             if('>=' in line1):
                 st="CMP {},{}".format(var[2],re.findall("^\d+",var[1])[0] )
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
                 st="MOVGE {},#1".format(var[2])
+
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
             if('<' in line1):
                 st="CMP {},{}".format(var[2],re.findall("^\d+",var[1])[0] )
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
                 st="MOVLT {},#1".format(var[2])
+
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
             if('<=' in line1):
                 st="CMP {},{}".format(var[2],re.findall("^\d+",var[1])[0] )
                 print(st)
+                
+                r1=emptyreg.pop(0)
+                busyreg.append(r1)
+                var[1]="R{}".format(r1)
+                
                 st="MOVLE {},#1".format(var[2])
-            
+                
+                r=busyreg.pop(-1)
+                emptyreg.append(r)
+                
             print(st)
             st="STR {},{}".format(var[0],var[2])
             print(st)
