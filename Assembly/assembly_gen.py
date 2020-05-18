@@ -105,14 +105,31 @@ for line in icg:
             if('/' in line1):
                 st="DIV {},{},{}".format(var[1],var[1],var[2])
             if('>' in line1):
-                st="CMP {},{},{}".format(var[1],var[1],var[2])
+                st="CMP R{},R{}".format(var[1],var[2])
+                print(st)
+                st="MOVGT R{},#1".format(var[1])
+                # print(st)
+                # st="MOVNGT R{},#0".format(var[1])
+                # st="GT {},{},{}".format(var[1],var[1],var[2])
             if('>=' in line1):
-                st="CMP {},{},{}".format(var[1],var[1],var[2])
+                st="CMP {},{}".format(var[1],var[2])
+                print(st)
+                st="MOVGE {},#1".format(var[1])
+                # print(st)
+                # st="MOVNGE {},#0".format(var[1])
             if('<' in line1):
-                st="CMP {},{},{}".format(var[1],var[1],var[2])
+                st="CMP {},{}".format(var[1],var[2])
+                print(st)
+                st="MOVLT {},#1".format(var[1])
+                # print(st)
+                # st="MOVNLT {},#0".format(var[1]) 
             if('<=' in line1):
-                st="CMP {},{},{}".format(var[1],var[1],var[2])
-            
+                st="CMP {},{}".format(var[1],var[2])
+                print(st)
+                st="MOVLE {},#1".format(var[1])
+                # print(st)
+                # st="MOVNLE {},#0".format(var[1])
+                
             print(st)
             st="STR {},{}".format(var[0],var[1])
             print(st)
@@ -122,6 +139,7 @@ for line in icg:
             emptyreg.append(r)
 
         #num + num
+        '''
         if(len(re.findall("^\d+",var[1]))!=0 and len(re.findall("^\d+",var[2]))!=0):
             r+=1
             r=emptyreg.pop(0)
@@ -141,7 +159,8 @@ for line in icg:
             print(st)
             r=busyreg.pop(-1)
             emptyreg.append(r)
-        
+        '''
+
         # Var + Num
         if(len(re.findall("^[a-z]+(\d)*",var[1]))!=0 and len(re.findall("^\d+",var[2]))!=0):
             r+=1
@@ -153,12 +172,35 @@ for line in icg:
             if('+' in line1):
                 st="ADD {},#{}".format(var[1],re.findall("^\d+",var[2])[0] )
             if('-' in line1):
-                st="ADD {},#{}".format(var[1],re.findall("^\d+",var[2])[0] )
+                st="SUB {},#{}".format(var[1],re.findall("^\d+",var[2])[0] )
             if('*' in line1):
-                st="ADD {},#{}".format(var[1],re.findall("^\d+",var[2])[0] )
+                st="MUL {},#{}".format(var[1],re.findall("^\d+",var[2])[0] )
             if('/' in line1):
-                st="ADD {},#{}".format(var[1],re.findall("^\d+",var[2])[0] )
-
+                st="DIV {},#{}".format(var[1],re.findall("^\d+",var[2])[0] )
+            if('>' in line1):
+                st="CMP R{},#{}".format(var[1],re.findall("^\d+",var[2])[0])
+                print(st)
+                st="MOVGT R{},#1".format(var[1])
+                # print(st)
+                # st="MOVNGT R{},#0".format(var[1])
+            if('>=' in line1):
+                st="CMP {},#{}".format(var[1],re.findall("^\d+",var[2])[0])
+                print(st)
+                st="MOVGE {},#1".format(var[1])
+                # print(st)
+                # st="MOVNGE {},#1".format(var[1])
+            if('<' in line1):
+                st="CMP {},#{}".format(var[1],re.findall("^\d+",var[2])[0])
+                print(st)
+                st="MOVLT {},#1".format(var[1])
+                # print(st)
+                # st="MOVNLT {},#0".format(var[1])
+            if('<=' in line1):
+                st="CMP {},#{}".format(var[1],re.findall("^\d+",var[2])[0])
+                print(st)
+                st="MOVLE {},#1".format(var[1])
+                # print(st)
+                # st="MOVNLE {},#0".format(var[1])
             print(st)
             st="STR {},{}".format(var[0],var[1])
             print(st)
@@ -176,14 +218,32 @@ for line in icg:
             if('+' in line1):
                 st="ADD {},#{}".format(var[2],re.findall("^\d+",var[1])[0] )
             if('-' in line1):
-                st="ADD {},#{}".format(var[2],re.findall("^\d+",var[1])[0] )
+                st="SUB {},#{}".format(var[2],re.findall("^\d+",var[1])[0] )
             if('*' in line1):
-                st="ADD {},#{}".format(var[2],re.findall("^\d+",var[1])[0] )
+                st="MUL {},#{}".format(var[2],re.findall("^\d+",var[1])[0] )
             if('/' in line1):
-                st="ADD {},#{}".format(var[2],re.findall("^\d+",var[1])[0] )
-             
+                st="DIV {},#{}".format(var[2],re.findall("^\d+",var[1])[0] )
+            if('>' in line1):
+                st="CMP {},{}".format(var[2],re.findall("^\d+",var[1])[0] )
+                print(st)
+                st="MOVGT {},#1".format(var[2])
+                # print(st)
+                # st=
+            if('>=' in line1):
+                st="CMP {},{}".format(var[2],re.findall("^\d+",var[1])[0] )
+                print(st)
+                st="MOVGE {},#1".format(var[2])
+            if('<' in line1):
+                st="CMP {},{}".format(var[2],re.findall("^\d+",var[1])[0] )
+                print(st)
+                st="MOVLT {},#1".format(var[2])
+            if('<=' in line1):
+                st="CMP {},{}".format(var[2],re.findall("^\d+",var[1])[0] )
+                print(st)
+                st="MOVLE {},#1".format(var[2])
+            
             print(st)
-            st="MOV {},{}".format(var[0],var[2])
+            st="STR {},{}".format(var[0],var[2])
             print(st)
             r=busyreg.pop(-1)
             emptyreg.append(r)            
@@ -203,5 +263,5 @@ for line in icg:
         # print(var)
         st="CMP {},#1".format(var[0])
         print(st)
-        st="BNE {}".format(var[1])
+        st="BEQ {}".format(var[1])
         print(st)
